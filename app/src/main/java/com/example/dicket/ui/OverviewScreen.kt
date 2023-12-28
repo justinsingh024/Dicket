@@ -24,11 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
+import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
+    viewModel: OverviewViewModel = viewModel(),
     modifier: Modifier = Modifier,
+
 ){
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -40,7 +44,9 @@ fun OverviewScreen(
         ),
         modifier = modifier
     ) {
-        items(40) {
+        val allEvents = viewModel.allEvents()
+        items(allEvents.size) {
+            val event = allEvents[it]
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -61,7 +67,7 @@ fun OverviewScreen(
 
                 ) {
                     Text(
-                        text = "Party $it",
+                        text = event.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
                         color = Color(0xFFFFFFFF),
@@ -70,7 +76,7 @@ fun OverviewScreen(
                     )
                 }
                 Text(
-                    text = "12.12.23",
+                    text = event.date.toString(),
                     fontWeight = FontWeight.Light,
                     fontSize = 10.sp,
                     color = Color(0xFFFFFFFF),
