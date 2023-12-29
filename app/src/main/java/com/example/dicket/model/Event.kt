@@ -1,11 +1,15 @@
 package com.example.dicket.model
 
+import java.time.LocalDate
+import java.time.LocalTime
+
 data class Event(
     val title: String,
+    val rating: Float,
     val description: String,
     val minAge: Int,
-    val entry: String, // Eintrittsinformationen
-    val date: Long, // Zeitstempel für das Datum des Events
+    val entry: LocalTime, // Eintrittsinformationen
+    val date: LocalDate, // Zeitstempel für das Datum des Events
     val location: String,
     val image: String, // URL oder Pfad zur Event-Bildressource
     val category: String,

@@ -1,6 +1,8 @@
 package com.example.dicket.service
 
 import com.example.dicket.model.Event
+import java.time.LocalDate
+import java.time.LocalTime
 
 object MockService {
     private val eventList: List<Event>
@@ -19,10 +21,11 @@ object MockService {
         repeat(40) {i ->
             val event = Event(
                 title = "Event $i",
+                rating = 5.0f,
                 description = "Beschreibung für Event $i",
                 minAge = 18,
-                entry = "Eintrittskarte erforderlich",
-                date = 1, // Datum: Aktuelles Datum + i Tage
+                entry = LocalTime.of(20,30),
+                date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
                 location = "Veranstaltungsort $i",
                 image = "",
                 category = "Kategorie $i",

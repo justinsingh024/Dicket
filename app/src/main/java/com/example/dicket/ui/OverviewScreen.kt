@@ -1,6 +1,7 @@
 package com.example.dicket.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
+import com.example.dicket.model.Event
 import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
     viewModel: OverviewViewModel = viewModel(),
+    onOpenDetail: (Event) -> Unit,
     modifier: Modifier = Modifier,
 
 ){
@@ -53,9 +56,10 @@ fun OverviewScreen(
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp
                 ),
+
             ) {
             }
-            Column(modifier = modifier.padding(bottom = 20.dp)) {
+            Column(modifier = modifier.padding(bottom = 20.dp).clickable { onOpenDetail(event) }) {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
                     contentDescription = "Party",
@@ -92,5 +96,5 @@ fun OverviewScreen(
 @Preview
 @Composable
 fun OverviewScreenPreview(){
-    OverviewScreen()
+    OverviewScreen(onOpenDetail = {})
 }
