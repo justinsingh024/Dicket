@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
+import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.model.Event
 import com.example.dicket.service.MockService.allEvents
 
