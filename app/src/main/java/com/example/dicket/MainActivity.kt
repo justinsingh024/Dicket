@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //resetDatabase()
-        //Thread.sleep(1_000)
         initializeDatabase()
         performDummyQuery()
 
@@ -38,10 +36,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun resetDatabase() {
-        val databasesDir = File("${applicationInfo.dataDir}/databases")
-        databasesDir.listFiles()?.forEach { it.delete() }
-    }
     private fun initializeDatabase() {
         database = DicketDatabase.getInstance(this)
         userDao = database.userDao()
