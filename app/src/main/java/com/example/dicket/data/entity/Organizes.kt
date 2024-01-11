@@ -4,14 +4,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "HilftAus",
-    primaryKeys = ["userID", "veranstaltungsID"],
+    tableName = "Organizes",
+    primaryKeys = ["userID", "eventID"],
     foreignKeys = [
         ForeignKey(entity = User::class, parentColumns = ["userID"], childColumns = ["userID"]),
-        ForeignKey(entity = Veranstaltung::class, parentColumns = ["veranstaltungsID"], childColumns = ["veranstaltungsID"])
+        ForeignKey(entity = Event::class, parentColumns = ["eventID"], childColumns = ["eventID"])
     ]
 )
-data class HilftAus(
+data class Organizes(
     val userID: Int,
-    val veranstaltungsID: Int
+    val eventID: Int
 )

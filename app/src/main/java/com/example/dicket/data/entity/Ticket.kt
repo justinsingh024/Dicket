@@ -2,15 +2,14 @@ package com.example.dicket.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "Ticket",
     foreignKeys = [
         ForeignKey(
-            entity = Veranstaltung::class,
-            parentColumns = ["veranstaltungsID"],
-            childColumns = ["veranstaltungsID"]
+            entity = Event::class,
+            parentColumns = ["eventID"],
+            childColumns = ["eventID"]
         ),
         ForeignKey(
             entity = User::class,
@@ -27,11 +26,11 @@ import androidx.room.PrimaryKey
 )
 data class Ticket(
     val qrCode: String,
-    val kaufdatum: String,
-    val istStorniert: Boolean,
-    val istEingeloest: Boolean,
-    val istCheckin: Boolean,
-    val veranstaltungsID: Int,
+    val purchaseDate: String,
+    val isCancelled: Boolean,
+    val isRedeemed: Boolean,
+    val isCheckedIn: Boolean,
+    val eventID: Int,
     val userID: Int,
     val scannedByUserID: Int
 )

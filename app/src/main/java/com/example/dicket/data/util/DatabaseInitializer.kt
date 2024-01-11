@@ -6,36 +6,36 @@ import com.example.dicket.data.entity.*
 class DatabaseInitializer {
     fun insertExampleData(database: DicketDatabase) {
         val ortDao = database.ortDao()
-        val kategorieDao = database.kategorieDao()
-        val standortDao = database.standortDao()
-        val veranstaltungDao = database.veranstaltungDao()
+        val categorieDao = database.categorieDao()
+        val locationDao = database.locationDao()
+        val eventDao = database.eventDao()
         val ticketDao = database.ticketDao()
-        val veranstaltetDao = database.veranstaltetDao()
+        val organizesDao = database.organizesDao()
         val userDao = database.userDao()
-        val hilftAusDao = database.hilftAusDao()
+        val helpsDao = database.helpsDao()
 
-        // Beispiel-Daten für Ort
-        ortDao.insertOrt(Ort(12345, "Stadt"))
+        // Beispiel-Daten für City
+        ortDao.insertCity(City(12345, "Stadt"))
 
-        // Beispiel-Daten für Kategorie
-        kategorieDao.insertKategorie(Kategorie(1, "Musik"))
+        // Beispiel-Daten für Categorie
+        categorieDao.insertCategorie(Categorie(1, "Musik"))
 
-        // Beispiel-Daten für Standort
-        standortDao.insertStandort(Standort(1, "Hauptstraße", "Musikhalle", "7b", 12345))
+        // Beispiel-Daten für Location
+        locationDao.insertLocation(Location(1, "Hauptstraße", "Musikhalle", "7b", 12345))
 
-        // Beispiel-Daten für Veranstaltungen
+        // Beispiel-Daten für Eventen
         for (i in 1..4) {
-            veranstaltungDao.insertVeranstaltung(
-                Veranstaltung(
+            eventDao.insertEvent(
+                Event(
                     i,
-                    "Veranstaltung $i",
-                    "Beschreibung für Veranstaltung $i",
+                    "Event $i",
+                    "Beschreibung für Event $i",
                     18,
                     "2022-12-3$i 20:00:00",
                     "2022-12-3$i 18:00:00",
-                    1,  // Hier festlegen, welche Standort-ID zugeordnet wird
+                    1,  // Hier festlegen, welche Location-ID zugeordnet wird
                     "bild_$i.jpg",
-                    1,  // Hier festlegen, welche Kategorie-ID zugeordnet wird
+                    1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
                     50.0 + i * 10,
                     "2022-12-3$i 18:00:00",
                     1000
@@ -54,14 +54,14 @@ class DatabaseInitializer {
             ticketDao.insertTicket(ticket)
         }
 
-        // Beispiel-Daten für Veranstaltet
+        // Beispiel-Daten für Organizes
         for (i in 1..4) {
-            veranstaltetDao.insertVeranstaltet(Veranstaltet(2, i))
+            organizesDao.insertOrganizes(Organizes(2, i))
         }
 
         // Beispiel-Daten für HilftAus
         for (i in 1..4) {
-            hilftAusDao.insertHilftAus(HilftAus(1, i))
+            helpsDao.insertHelps(Helps(1, i))
         }
     }
 }

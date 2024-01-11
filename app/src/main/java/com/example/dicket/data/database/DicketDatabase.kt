@@ -1,7 +1,6 @@
 package com.example.dicket.data.database
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,24 +8,21 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.dicket.data.dao.*
 import com.example.dicket.data.entity.*
 import com.example.dicket.data.util.DatabaseInitializer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Database(
-    entities = [User::class, Ticket::class, Veranstaltet::class, HilftAus::class, Veranstaltung::class, Standort::class, Ort::class, Kategorie::class],
+    entities = [User::class, Ticket::class, Organizes::class, Helps::class, Event::class, Location::class, City::class, Categorie::class],
     version = 2
 )
 abstract class DicketDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun ticketDao(): TicketDao
-    abstract fun veranstaltetDao(): VeranstaltetDao
-    abstract fun hilftAusDao(): HilftAusDao
-    abstract fun veranstaltungDao(): VeranstaltungDao
-    abstract fun standortDao(): StandortDao
-    abstract fun ortDao(): OrtDao
-    abstract fun kategorieDao(): KategorieDao
+    abstract fun organizesDao(): OrganizesDao
+    abstract fun helpsDao(): HelpsDao
+    abstract fun eventDao(): EventDao
+    abstract fun locationDao(): LocationDao
+    abstract fun ortDao(): CityDao
+    abstract fun categorieDao(): CategorieDao
 
 
     companion object {

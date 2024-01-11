@@ -6,21 +6,21 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "Standort",
+    tableName = "Location",
     foreignKeys = [
         ForeignKey(
-            entity = Ort::class,
+            entity = City::class,
             parentColumns = ["plz"],
             childColumns = ["plz"]
         )
     ],
-    indices = [Index("standortID", unique = true)]
+    indices = [Index("locationID", unique = true)]
 )
-data class Standort(
+data class Location(
     @PrimaryKey
-    val standortID: Int,
-    val strasse: String,
-    val locationname: String,
-    val hausnummer: String,
+    val locationID: Int,
+    val street: String,
+    val locationName: String,
+    val houseNumber: String,
     val plz: Int
 )
