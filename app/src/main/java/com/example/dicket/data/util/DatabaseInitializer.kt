@@ -31,13 +31,13 @@ class DatabaseInitializer {
                     "Event $i",
                     "Beschreibung für Event $i",
                     18,
-                    "2022-12-3$i 20:00:00",
-                    "2022-12-3$i 18:00:00",
+                    "2024-10-3$i 20:00:00",
+                    "2024-10-3$i 18:00:00",
                     1,  // Hier festlegen, welche Location-ID zugeordnet wird
                     "bild_$i.jpg",
                     1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
                     50.0 + i * 10,
-                    "2022-12-3$i 18:00:00",
+                    "2024-10-3$i 18:00:00",
                     1000
                 )
             )

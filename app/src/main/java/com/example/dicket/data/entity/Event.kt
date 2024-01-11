@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey
 data class Event(
     @PrimaryKey
     val eventID: Int,
-    val titel: String,
+    val title: String,
     val description: String,
     val minAge: Int,
     val entry: String,
