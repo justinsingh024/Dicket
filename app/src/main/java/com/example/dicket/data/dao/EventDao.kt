@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.dicket.data.entity.Event
 
@@ -13,14 +14,15 @@ interface EventDao {
     fun insertEvent(event: Event)
 
     @Update
-    suspend fun updateEvent(event: Event)
+    fun updateEvent(event: Event)
 
     @Delete
-    suspend fun deleteEvent(event: Event)
+    fun deleteEvent(event: Event)
 
+    @Transaction
     @Query("SELECT * FROM Event WHERE eventID = :eventId")
-    suspend fun getEventById(eventId: Int): Event?
+    fun getEventById(eventId: Int): Event?
 
     @Query("SELECT * FROM Event")
-    suspend fun getAllEvents(): List<Event>
+    fun getAllEvents(): List<Event>
 }

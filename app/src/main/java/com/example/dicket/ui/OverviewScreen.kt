@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
 import com.example.dicket.data.database.DicketDatabase
@@ -33,11 +34,12 @@ import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
-    viewModel: OverviewViewModel = viewModel(),
+    //viewModel: OverviewViewModel = viewModel(),
     onOpenDetail: (Event) -> Unit,
     modifier: Modifier = Modifier,
-
 ){
+    val viewModel = hiltViewModel<OverviewViewModel>()
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(
@@ -59,7 +61,7 @@ fun OverviewScreen(
                 ),
 
             ) {
-            }
+            }/*
             Column(modifier = modifier.padding(bottom = 20.dp).clickable { onOpenDetail(event) }) {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
@@ -89,7 +91,7 @@ fun OverviewScreen(
                     modifier = modifier.padding(2.dp)
                 )
             }
-
+*/
             }
     }
 }

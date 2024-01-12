@@ -9,9 +9,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.dicket.data.dao.UserDao
 import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.ui.theme.DicketTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class MainActivity : ComponentActivity() {
     lateinit var database: DicketDatabase
