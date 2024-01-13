@@ -12,6 +12,6 @@ import androidx.room.ForeignKey
     ]
 )
 data class Helps(
-    val userID: Int,
-    val eventID: Int
+    var userID: Int,
+    var eventID: Int
 )

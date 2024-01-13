@@ -1,26 +1,17 @@
 package com.example.dicket.data.entity
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "Location",
-    foreignKeys = [
-        ForeignKey(
-            entity = City::class,
-            parentColumns = ["plz"],
-            childColumns = ["plz"]
-        )
-    ],
-    indices = [Index("locationID", unique = true)]
+    tableName = "Location"
 )
 data class Location(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val locationID: Int,
-    val street: String,
-    val locationName: String,
-    val houseNumber: String,
-    val plz: Int
+    var street: String,
+    var locationName: String,
+    var houseNumber: String,
+    var city: String,
+    var plz: Int
 )
