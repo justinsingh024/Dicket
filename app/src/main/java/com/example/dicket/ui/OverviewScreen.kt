@@ -1,16 +1,14 @@
 package com.example.dicket.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.*
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -26,19 +24,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
-import com.example.dicket.data.database.DicketDatabase
-import com.example.dicket.model.Event
-import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
-    //viewModel: OverviewViewModel = viewModel(),
-    onOpenDetail: (Event) -> Unit,
+    viewModel: OverviewViewModel = hiltViewModel(),
+    //onOpenDetail: (Event) -> Unit,
     modifier: Modifier = Modifier,
 ){
-    val viewModel = hiltViewModel<OverviewViewModel>()
+    val allEvents = viewModel.allEvents
 
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -50,9 +44,7 @@ fun OverviewScreen(
         ),
         modifier = modifier
     ) {
-        val allEvents = viewModel.allEvents()
-        items(allEvents.size) {
-            val event = allEvents[it]
+        items(allEvents.value) { event ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -61,8 +53,8 @@ fun OverviewScreen(
                 ),
 
             ) {
-            }/*
-            Column(modifier = modifier.padding(bottom = 20.dp).clickable { onOpenDetail(event) }) {
+            }
+            Column() {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
                     contentDescription = "Party",
@@ -91,7 +83,7 @@ fun OverviewScreen(
                     modifier = modifier.padding(2.dp)
                 )
             }
-*/
+
             }
     }
 }
@@ -99,5 +91,5 @@ fun OverviewScreen(
 @Preview
 @Composable
 fun OverviewScreenPreview(){
-    OverviewScreen(onOpenDetail = {})
+    OverviewScreen()
 }

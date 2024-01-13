@@ -1,13 +1,9 @@
 package com.example.dicket.data.database
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.dicket.data.dao.*
 import com.example.dicket.data.entity.*
-import com.example.dicket.data.util.DatabaseInitializer
 
 @Database(
     entities = [User::class, Ticket::class, Organizes::class, Helps::class, Event::class, Location::class, City::class, Categorie::class],
@@ -24,7 +20,7 @@ abstract class DicketDatabase : RoomDatabase() {
     abstract fun ortDao(): CityDao
     abstract fun categorieDao(): CategorieDao
 
-
+/*
     companion object {
 
         @Volatile private var INSTANCE: DicketDatabase? = null
@@ -52,4 +48,5 @@ abstract class DicketDatabase : RoomDatabase() {
                 })
                 .build()
     }
+    */
 }

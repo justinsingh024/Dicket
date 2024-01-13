@@ -4,7 +4,7 @@ import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.data.entity.*
 
 class DatabaseInitializer {
-    fun insertExampleData(database: DicketDatabase) {
+    suspend fun insertExampleData(database: DicketDatabase) {
         val ortDao = database.ortDao()
         val categorieDao = database.categorieDao()
         val locationDao = database.locationDao()
@@ -25,7 +25,7 @@ class DatabaseInitializer {
 
         // Beispiel-Daten für Eventen
         for (i in 1..4) {
-            eventDao.insertEvent(
+            eventDao.insert(
                 Event(
                     i,
                     "Event $i",
@@ -59,7 +59,7 @@ class DatabaseInitializer {
             organizesDao.insertOrganizes(Organizes(2, i))
         }
 
-        // Beispiel-Daten für HilftAus
+        // Beispiel-Daten für Helps
         for (i in 1..4) {
             helpsDao.insertHelps(Helps(1, i))
         }

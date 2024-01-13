@@ -15,8 +15,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.ui.OverviewViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -64,7 +64,7 @@ fun DicketAppBar(
 
 @Composable
 fun DicketApp(
-    viewModel: OverviewViewModel = viewModel(),
+    viewModel: OverviewViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
 
 ) {
@@ -86,10 +86,7 @@ fun DicketApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(route =  DicketScreen.Overview.name) {
-                OverviewScreen(onOpenDetail = {
-                    Log.d(TAG, "Event has been clicked")
-                    navController.navigate(DicketScreen.Detail.name)
-                })
+                OverviewScreen()
             }
             composable(route =  DicketScreen.Detail.name) {
                 val exampleEvent = Event(

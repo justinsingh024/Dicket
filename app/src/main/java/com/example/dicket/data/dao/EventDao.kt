@@ -3,26 +3,24 @@ package com.example.dicket.data.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.example.dicket.data.entity.Event
-
 @Dao
 interface EventDao {
-    @Insert
-    fun insertEvent(event: Event)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(event: Event)
 
     @Update
-    fun updateEvent(event: Event)
+    suspend fun update(event: Event)
 
     @Delete
-    fun deleteEvent(event: Event)
+    suspend fun delete(event: Event)
 
-    @Transaction
-    @Query("SELECT * FROM Event WHERE eventID = :eventId")
-    fun getEventById(eventId: Int): Event?
+    @Query("SELECT * from event WHERE eventId = :eventId")
+    fun getEvent(eventId: Int): List<Event>
 
-    @Query("SELECT * FROM Event")
+    @Query("SELECT * from event")
     fun getAllEvents(): List<Event>
 }

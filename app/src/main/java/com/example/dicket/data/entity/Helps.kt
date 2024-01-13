@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "HilftAus",
+    tableName = "Helps",
     primaryKeys = ["userID", "eventID"],
     foreignKeys = [
         ForeignKey(entity = User::class, parentColumns = ["userID"], childColumns = ["userID"]),
