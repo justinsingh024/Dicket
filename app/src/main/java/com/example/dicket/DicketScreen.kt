@@ -10,13 +10,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,7 +37,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.dicket.model.Event
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
-import com.example.dicket.model.Event
 import com.example.dicket.service.MockService
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
@@ -140,10 +136,12 @@ fun DicketApp(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(route =  DicketScreen.Overview.name) {
-                OverviewScreen(onOpenDetail = {
-                    Log.d(TAG, "Event has been clicked")
-                    navController.navigate(DicketScreen.Detail.name)
-                })
+                OverviewScreen(
+                    //onOpenDetail = {
+                    // Log.d(TAG, "Event has been clicked")
+                    // navController.navigate(DicketScreen.Detail.name)
+                //}
+               )
             }
             composable(route =  DicketScreen.Detail.name) {
                 val exampleEvent = Event(
