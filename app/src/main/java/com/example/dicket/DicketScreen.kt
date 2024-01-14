@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,8 +30,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.dicket.model.Event
+import com.example.dicket.service.MockService
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
+import com.example.dicket.ui.LoginInfoScreen
+import com.example.dicket.ui.LoginScreen
 import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
 import java.time.LocalDate
@@ -43,6 +47,7 @@ enum class DicketScreen() {
     Detail,
     Buy,
     MyProfile,
+    Login,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -117,7 +122,7 @@ fun DicketApp(
 
     ) {
         innerPadding ->
-        //val uiState by viewModel.uiState.collectAsState()
+        val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = DicketScreen.Overview.name,
@@ -167,7 +172,16 @@ fun DicketApp(
                 BuyScreen(event = exampleEvent)
             }
             composable(route =  DicketScreen.MyProfile.name) {
-                MyProfilScreen()
+                MyProfilScreen(myEvents = MockService.allEvents,
+                    myTickets = MockService.allEvents,
+                    onLoginPressed = {
+                        navController.navigate(DicketScreen.Login.name)
+                })
+            }
+            composable(route =  DicketScreen.Login.name) {
+                LoginScreen(onLoginClicked = {mail, password ->
+                    viewModel.login(mail, password)
+                })
             }
         }
     }
