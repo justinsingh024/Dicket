@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -19,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -57,9 +57,9 @@ fun DicketAppBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(stringResource(id = R.string.app_name)) },
+        title = { Text(stringResource(id = R.string.app_name), color = Color.White) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = Color(0xFF242323)
         ),
         modifier = modifier,
         navigationIcon = {
@@ -67,7 +67,8 @@ fun DicketAppBar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
+                        tint = Color.White
                     )
                 }
             }
@@ -91,7 +92,9 @@ fun DicketApp(
             )
         },
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                backgroundColor = Color(255, 128, 54)
+            ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 DicketScreen.entries.forEach { screen ->
@@ -117,7 +120,8 @@ fun DicketApp(
                     )
                 }
             }
-        }
+        },
+        containerColor = Color(0xFF111620)
 
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()

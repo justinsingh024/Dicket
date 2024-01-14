@@ -79,6 +79,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.compose.material:material:1.5.4")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
 
 
     //Dagger - Hilt
