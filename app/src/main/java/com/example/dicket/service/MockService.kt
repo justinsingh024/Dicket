@@ -18,13 +18,13 @@ object MockService {
 
     private fun generateEvents(): List<Event> {
         val eventList = mutableListOf<Event>()
-        repeat(40) {i ->
+        repeat(40) { i ->
             val event = Event(
                 title = "Event $i",
                 rating = 5.0f,
                 description = "Beschreibung für Event $i",
                 minAge = 18,
-                entry = LocalTime.of(20,30),
+                entry = LocalTime.of(20, 30),
                 date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
                 location = "Veranstaltungsort $i",
                 image = "",

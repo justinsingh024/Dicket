@@ -1,9 +1,6 @@
 package com.example.dicket.ui
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,13 +38,16 @@ fun DetailScreen(modifier: Modifier = Modifier, event: Event, onBuyPressed: (Eve
             painter = painterResource(id = R.drawable.example_party),
             contentDescription = "Image",
             contentScale = ContentScale.Crop,
-            modifier = modifier.fillMaxWidth().weight(2f),
+            modifier = modifier
+                .fillMaxWidth()
+                .weight(2f),
 
-        )
-        Column(modifier = modifier
-            .padding(12.dp)
-            .verticalScroll(rememberScrollState())
-            .weight(4f)
+            )
+        Column(
+            modifier = modifier
+                .padding(12.dp)
+                .verticalScroll(rememberScrollState())
+                .weight(4f)
         ) {
             Text(text = event.title, fontSize = 30.sp, fontStyle = FontStyle.Italic)
             Spacer(modifier = modifier.height(16.dp))
@@ -63,12 +63,15 @@ fun DetailScreen(modifier: Modifier = Modifier, event: Event, onBuyPressed: (Eve
             PaddedText(label = "Available Tickets: ", value = event.maxQuantityTicket.toString())
         }
         Button(
-            modifier = modifier.fillMaxWidth().weight(0.75f).padding(12.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .weight(0.75f)
+                .padding(12.dp),
             onClick = {
                 onBuyPressed(event)
             },
 
-        ) {
+            ) {
             Text(text = "Order Ticket")
         }
     }
@@ -102,7 +105,9 @@ fun StarRating(rating: Float) {
             Icon(
                 imageVector = Icons.Default.Star,
                 contentDescription = null,
-                tint = if (filled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                tint = if (filled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = 0.5f
+                ),
                 modifier = Modifier
                     .size(24.dp)
                     .padding(2.dp)
@@ -119,7 +124,7 @@ fun DetailScreenPreview() {
         rating = 4.5f,
         description = "Join us for an incredible experience!",
         minAge = 18,
-        entry = LocalTime.of(18,30),
+        entry = LocalTime.of(18, 30),
         date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
         location = "Fantastic Venue",
         image = "https://example.com/sample_image.jpg",

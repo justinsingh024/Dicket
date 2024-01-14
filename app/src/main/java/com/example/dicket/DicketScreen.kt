@@ -2,18 +2,15 @@ package com.example.dicket
 
 import android.util.Log
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -23,9 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.dicket.ui.OverviewViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -35,15 +29,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.dicket.model.Event
-import com.example.dicket.ui.BuyScreen
-import com.example.dicket.ui.DetailScreen
 import com.example.dicket.service.MockService
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
-import com.example.dicket.ui.LoginInfoScreen
 import com.example.dicket.ui.LoginScreen
 import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
+import com.example.dicket.ui.OverviewViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -127,29 +119,28 @@ fun DicketApp(
             }
         }
 
-    ) {
-        innerPadding ->
+    ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = DicketScreen.Overview.name,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(route =  DicketScreen.Overview.name) {
+            composable(route = DicketScreen.Overview.name) {
                 OverviewScreen(
                     //onOpenDetail = {
                     // Log.d(TAG, "Event has been clicked")
                     // navController.navigate(DicketScreen.Detail.name)
-                //}
-               )
+                    //}
+                )
             }
-            composable(route =  DicketScreen.Detail.name) {
+            composable(route = DicketScreen.Detail.name) {
                 val exampleEvent = Event(
                     title = "Amazing Event",
                     rating = 3.5f,
                     description = "Join us for an incredible experience!",
                     minAge = 18,
-                    entry = LocalTime.of(18,30),
+                    entry = LocalTime.of(18, 30),
                     date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
                     location = "Fantastic Venue",
                     image = "https://example.com/sample_image.jpg",
@@ -163,13 +154,13 @@ fun DicketApp(
                     navController.navigate(DicketScreen.Buy.name)
                 })
             }
-            composable(route =  DicketScreen.Buy.name) {
+            composable(route = DicketScreen.Buy.name) {
                 val exampleEvent = Event(
                     title = "Amazing Event",
                     rating = 3.5f,
                     description = "Join us for an incredible experience!",
                     minAge = 18,
-                    entry = LocalTime.of(18,30),
+                    entry = LocalTime.of(18, 30),
                     date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
                     location = "Fantastic Venue",
                     image = "https://example.com/sample_image.jpg",
@@ -180,15 +171,15 @@ fun DicketApp(
                 )
                 BuyScreen(event = exampleEvent)
             }
-            composable(route =  DicketScreen.MyProfile.name) {
+            composable(route = DicketScreen.MyProfile.name) {
                 MyProfilScreen(myEvents = MockService.allEvents,
                     myTickets = MockService.allEvents,
                     onLoginPressed = {
                         navController.navigate(DicketScreen.Login.name)
-                })
+                    })
             }
-            composable(route =  DicketScreen.Login.name) {
-                LoginScreen(onLoginClicked = {mail, password ->
+            composable(route = DicketScreen.Login.name) {
+                LoginScreen(onLoginClicked = { mail, password ->
                     viewModel.login(mail, password)
                 })
             }

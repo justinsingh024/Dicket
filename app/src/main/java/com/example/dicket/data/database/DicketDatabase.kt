@@ -4,8 +4,20 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.dicket.data.converters.Converters
-import com.example.dicket.data.dao.*
-import com.example.dicket.data.entity.*
+import com.example.dicket.data.dao.CategorieDao
+import com.example.dicket.data.dao.EventDao
+import com.example.dicket.data.dao.HelpsDao
+import com.example.dicket.data.dao.LocationDao
+import com.example.dicket.data.dao.OrganizesDao
+import com.example.dicket.data.dao.TicketDao
+import com.example.dicket.data.dao.UserDao
+import com.example.dicket.data.entity.Categorie
+import com.example.dicket.data.entity.Event
+import com.example.dicket.data.entity.Helps
+import com.example.dicket.data.entity.Location
+import com.example.dicket.data.entity.Organizes
+import com.example.dicket.data.entity.Ticket
+import com.example.dicket.data.entity.User
 
 @Database(
     entities = [User::class, Ticket::class, Organizes::class, Helps::class, Event::class, Location::class, Categorie::class],

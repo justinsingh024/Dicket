@@ -9,8 +9,16 @@ import java.time.LocalTime
 @Entity(
     tableName = "Event",
     foreignKeys = [
-        ForeignKey(entity = Location::class, parentColumns = ["locationID"], childColumns = ["location"]),
-        ForeignKey(entity = Categorie::class, parentColumns = ["categorieID"], childColumns = ["categorie"])
+        ForeignKey(
+            entity = Location::class,
+            parentColumns = ["locationID"],
+            childColumns = ["location"]
+        ),
+        ForeignKey(
+            entity = Categorie::class,
+            parentColumns = ["categorieID"],
+            childColumns = ["categorie"]
+        )
     ]
 )
 data class Event(

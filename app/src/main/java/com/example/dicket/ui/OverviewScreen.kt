@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFrom
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -31,10 +29,10 @@ import com.example.dicket.R
 
 @Composable
 fun OverviewScreen(
+    modifier: Modifier = Modifier,
     viewModel: OverviewViewModel = hiltViewModel(),
     // onOpenDetail: (Event) -> Unit,
-    modifier: Modifier = Modifier,
-){
+) {
     val allEvents = viewModel.allEvents
 
     LazyVerticalGrid(
@@ -55,11 +53,13 @@ fun OverviewScreen(
                     defaultElevation = 10.dp
                 ),
 
-            ) {
+                ) {
             }
-            Column(modifier = modifier.padding(bottom = 20.dp).clickable {
-            // onOpenDetail(event)
-            }) {
+            Column(modifier = modifier
+                .padding(bottom = 20.dp)
+                .clickable {
+                    // onOpenDetail(event)
+                }) {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
                     contentDescription = "Party",
@@ -69,7 +69,7 @@ fun OverviewScreen(
                 Row(
                     modifier = modifier,
 
-                ) {
+                    ) {
                     Text(
                         text = event.title,
                         fontWeight = FontWeight.Bold,
@@ -89,13 +89,13 @@ fun OverviewScreen(
                 )
             }
 
-            }
+        }
     }
 }
 
 @Preview
 @Composable
-fun OverviewScreenPreview(){
+fun OverviewScreenPreview() {
     OverviewScreen(
         // onOpenDetail = {}
     )

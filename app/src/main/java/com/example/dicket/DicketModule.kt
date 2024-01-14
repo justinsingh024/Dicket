@@ -68,7 +68,7 @@ object DicketModule {
                 .allowMainThreadQueries()
                 .addCallback(DbCallback(scope))
                 .build()
-                .also { INSTANCE = it}
+                .also { INSTANCE = it }
             instance
         }
     }

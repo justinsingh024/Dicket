@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.dicket.data.entity.Event
+
 @Dao
 interface EventDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
