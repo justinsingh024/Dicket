@@ -1,6 +1,7 @@
 package com.example.dicket.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,11 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.dicket.R
+import com.example.dicket.model.Event
+import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
+    viewModel: OverviewViewModel = viewModel(),
+    onOpenDetail: (Event) -> Unit,
     modifier: Modifier = Modifier,
+
 ){
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -40,16 +47,19 @@ fun OverviewScreen(
         ),
         modifier = modifier
     ) {
-        items(40) {
+        val allEvents = viewModel.allEvents()
+        items(allEvents.size) {
+            val event = allEvents[it]
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp
                 ),
+
             ) {
             }
-            Column(modifier = modifier.padding(bottom = 20.dp)) {
+            Column(modifier = modifier.padding(bottom = 20.dp).clickable { onOpenDetail(event) }) {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
                     contentDescription = "Party",
@@ -61,7 +71,7 @@ fun OverviewScreen(
 
                 ) {
                     Text(
-                        text = "Party $it",
+                        text = event.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 30.sp,
                         color = Color(0xFFFFFFFF),
@@ -70,7 +80,7 @@ fun OverviewScreen(
                     )
                 }
                 Text(
-                    text = "12.12.23",
+                    text = event.date.toString(),
                     fontWeight = FontWeight.Light,
                     fontSize = 10.sp,
                     color = Color(0xFFFFFFFF),
@@ -86,5 +96,5 @@ fun OverviewScreen(
 @Preview
 @Composable
 fun OverviewScreenPreview(){
-    OverviewScreen()
+    OverviewScreen(onOpenDetail = {})
 }
