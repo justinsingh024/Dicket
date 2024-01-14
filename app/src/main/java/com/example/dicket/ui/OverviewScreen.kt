@@ -25,18 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
-import com.example.dicket.model.Event
-import com.example.dicket.service.MockService.allEvents
 
 @Composable
 fun OverviewScreen(
-    viewModel: OverviewViewModel = viewModel(),
+    viewModel: OverviewViewModel = hiltViewModel(),
     onOpenDetail: (Event) -> Unit,
     modifier: Modifier = Modifier,
-
 ){
+    val allEvents = viewModel.allEvents
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
         contentPadding = PaddingValues(
@@ -47,9 +46,7 @@ fun OverviewScreen(
         ),
         modifier = modifier
     ) {
-        val allEvents = viewModel.allEvents()
-        items(allEvents.size) {
-            val event = allEvents[it]
+        items(allEvents.value) { event ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
