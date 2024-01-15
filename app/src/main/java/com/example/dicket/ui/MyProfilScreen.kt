@@ -1,5 +1,6 @@
 package com.example.dicket.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -20,65 +22,97 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
+import com.example.dicket.data.entity.User
 import com.example.dicket.model.Event
 import com.example.dicket.service.MockService
 
 @Composable
 fun MyProfilScreen(
+    currentUser: User?,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     myEvents: List<Event>,
     myTickets: List<Event>,
     onLoginPressed: () -> Unit,
+    onLogoutPressed: () -> Unit,
 ) {
+    //val uiState by viewModel.uiState.collectAsState()
     Column(
         modifier = modifier
             .padding(6.dp)
             .fillMaxWidth()
     ) {
+        Log.d("MyProfileScreen", "isLoggedIn: $isLoggedIn")
+
         LoginInfoScreen(
+            currentUser,
+            isLoggedIn,
             modifier = modifier
                 .weight(1f)
                 .fillMaxWidth(),
-            onLoginPressed
+            onLoginPressed,
+            onLogoutPressed,
         )
-        PaymentScreen(modifier = modifier.weight(2f))
-        Text(text = "Your Events")
-        Spacer(modifier = modifier.height(8.dp))
-        EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
-        Spacer(modifier = modifier.height(16.dp))
-        Text(text = "Your Tickets")
-        Spacer(modifier = modifier.height(8.dp))
-        EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
 
+        if(isLoggedIn){
+            PaymentScreen(modifier = modifier.weight(2f))
+            Text(text = "Your Events")
+            Spacer(modifier = modifier.height(8.dp))
+            EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
+            Spacer(modifier = modifier.height(16.dp))
+            Text(text = "Your Tickets")
+            Spacer(modifier = modifier.height(8.dp))
+            EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
+        }
     }
 }
 
 @Composable
 fun LoginInfoScreen(
+    currentUser: User?,
+    isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
     onLoginPressed: () -> Unit,
+    onLogoutPressed: () -> Unit,
 ) {
-    Text(text = "My Login")
-    Text(
-        text = "Username",
-        modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        fontStyle = FontStyle.Italic,
-        fontSize = 18.sp
-    )
+    //Text(text = "My Login")
+    if(isLoggedIn) {
+        val prename = currentUser?.prename
+        val surname = currentUser?.surname
+        Text(
+            text = "Welcome $prename $surname",
+            modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            fontStyle = FontStyle.Italic,
+            fontSize = 18.sp
+        )
+    }
+
+
     Row(modifier = modifier) {
         Spacer(modifier = modifier.weight(3f))
-        Button(modifier = modifier.weight(1f), onClick = onLoginPressed) {
-            Text(text = "Login")
+
+        if(isLoggedIn){
+            Button(
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                modifier = modifier.weight(1f), onClick = onLogoutPressed) {
+                Text(text = "Logout")
+            }
+        } else{
+            Button(modifier = modifier.weight(1f), onClick = onLoginPressed) {
+                Text(text = "Login")
+            }
         }
+
         Spacer(modifier = modifier.weight(3f))
 
     }
@@ -171,9 +205,10 @@ fun EventListing(
 
 }
 
-
+/*
 @Composable
 @Preview
 fun MyProfileScreenPreview() {
-    MyProfilScreen(modifier = Modifier, listOf<Event>(), listOf<Event>(), {})
+    MyProfilScreen(isLoggedIn = false, modifier = Modifier, myEvents = listOf<Event>(), myTickets = listOf<Event>(), onLoginPressed = {})
 }
+*/

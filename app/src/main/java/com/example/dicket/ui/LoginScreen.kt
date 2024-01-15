@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dicket.R
@@ -41,8 +42,8 @@ fun LoginScreen(onLoginClicked: (String, String) -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
+    //val focusManager = LocalFocusManager.current
+    //val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = Modifier
@@ -75,9 +76,13 @@ fun LoginScreen(onLoginClicked: (String, String) -> Unit) {
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = "" },
+            onValueChange = { password = it },
             label = { Text("Password") },
             leadingIcon = { Icon(imageVector = Icons.Default.Star, contentDescription = null) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next
+            ),
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)

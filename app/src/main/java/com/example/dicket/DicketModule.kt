@@ -8,10 +8,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.dicket.data.dao.CategoryDao
 import com.example.dicket.data.dao.EventDao
 import com.example.dicket.data.dao.LocationDao
+import com.example.dicket.data.dao.UserDao
 import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.data.repository.CategoryRepository
 import com.example.dicket.data.repository.EventRepository
 import com.example.dicket.data.repository.LocationRepository
+import com.example.dicket.data.repository.UserRepository
 import com.example.dicket.data.util.DatabaseInitializer
 import dagger.Module
 import dagger.Provides
@@ -81,6 +83,17 @@ object DicketModule {
         return database.locationDao()
     }
 
+    @Singleton
+    @Provides
+    fun getUserRepository(dao: UserDao): UserRepository {
+        return UserRepository(dao)
+    }
+
+    @Singleton
+    @Provides
+    fun getUserDao(database: DicketDatabase): UserDao {
+        return database.userDao()
+    }
 
 
     @Singleton

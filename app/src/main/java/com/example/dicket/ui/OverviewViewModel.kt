@@ -10,11 +10,11 @@ import com.example.dicket.data.entity.Location
 import com.example.dicket.data.repository.CategoryRepository
 import com.example.dicket.data.repository.EventRepository
 import com.example.dicket.data.repository.LocationRepository
+import com.example.dicket.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +22,8 @@ import javax.inject.Inject
 class OverviewViewModel @Inject constructor(
     private val eventRepository: EventRepository,
     private val categoryRepository: CategoryRepository,
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _allEvents = MutableStateFlow(emptyList<Event>())
@@ -48,13 +49,25 @@ class OverviewViewModel @Inject constructor(
     }
 
 
-
+/*
     fun login(mail: String, password: String) {
         _uiState.update { currentState ->
             currentState.copy(
                 isLoggedIn = true
             )
         }
+    }
+    */
+
+    fun login(mail: String, password: String) {
+        _uiState.value = _uiState.value.copy(currentUser = userRepository.getUserByMail(mail))
+        Log.d("OverviewViewModel", "UserMail: $mail")
+        _uiState.value = _uiState.value.copy(isLoggedIn = true)
+    }
+
+    fun logout() {
+        _uiState.value = _uiState.value.copy(isLoggedIn = false)
+        _uiState.value = _uiState.value.copy(currentUser = null)
     }
 
     fun setClickedEvent(event: Event) {

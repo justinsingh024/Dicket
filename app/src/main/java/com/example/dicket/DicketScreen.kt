@@ -36,7 +36,7 @@ import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
 import com.example.dicket.ui.OverviewViewModel
 
-private const val TAG = "DicketScreen"
+//private const val TAG = "DicketScreen"
 
 enum class DicketScreen() {
     Overview,
@@ -138,7 +138,8 @@ fun DicketApp(
                 )
             }
             composable(route = DicketScreen.Detail.name) {
-                DetailScreen(event = uiState.clickedEvent ?: error("Clicked event is null"),
+                DetailScreen(
+                    event = uiState.clickedEvent ?: error("Clicked event is null"),
                     categorie = uiState.clickedEventCategory ?: error("Clicked category is null"),
                     location = uiState.clickedEventLocation ?: error("Clicked location is null"),
                     onBuyPressed = {
@@ -152,15 +153,24 @@ fun DicketApp(
                     )
             }
             composable(route = DicketScreen.MyProfile.name) {
-                MyProfilScreen(myEvents = MockService.allEvents,
+                MyProfilScreen(
+                    currentUser = uiState.currentUser,
+                    isLoggedIn = uiState.isLoggedIn,
+                    myEvents = MockService.allEvents,
                     myTickets = MockService.allEvents,
                     onLoginPressed = {
                         navController.navigate(DicketScreen.Login.name)
-                    })
+                    },
+                    onLogoutPressed = {
+                        viewModel.logout()
+                        navController.navigate(DicketScreen.MyProfile.name)
+                    }
+                )
             }
             composable(route = DicketScreen.Login.name) {
                 LoginScreen(onLoginClicked = { mail, password ->
                     viewModel.login(mail, password)
+                    navController.navigate(DicketScreen.MyProfile.name)
                 })
             }
         }
