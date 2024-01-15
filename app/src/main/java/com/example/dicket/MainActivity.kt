@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.ui.theme.DicketTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -17,6 +18,7 @@ class MainActivity : ComponentActivity() {
     lateinit var database: DicketDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
 
         setContent {
             DicketTheme {
