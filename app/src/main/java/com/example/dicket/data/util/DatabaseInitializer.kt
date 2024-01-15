@@ -1,7 +1,7 @@
 package com.example.dicket.data.util
 
 import com.example.dicket.data.database.DicketDatabase
-import com.example.dicket.data.entity.Categorie
+import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.Helps
 import com.example.dicket.data.entity.Location
@@ -13,7 +13,7 @@ import java.time.LocalTime
 
 class DatabaseInitializer {
     suspend fun insertExampleData(database: DicketDatabase) {
-        val categorieDao = database.categorieDao()
+        val categorieDao = database.categoryDao()
         val locationDao = database.locationDao()
         val eventDao = database.eventDao()
         val ticketDao = database.ticketDao()
@@ -22,7 +22,7 @@ class DatabaseInitializer {
         val helpsDao = database.helpsDao()
 
         // Beispiel-Daten für Categorie
-        categorieDao.insertCategorie(Categorie(1, "Musik"))
+        categorieDao.insertCategory(Category(1, "Musik"))
 
         // Beispiel-Daten für Location
         locationDao.insertLocation(

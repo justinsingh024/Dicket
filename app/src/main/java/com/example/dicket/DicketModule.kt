@@ -5,9 +5,13 @@ import android.util.Log
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.dicket.data.dao.CategoryDao
 import com.example.dicket.data.dao.EventDao
+import com.example.dicket.data.dao.LocationDao
 import com.example.dicket.data.database.DicketDatabase
+import com.example.dicket.data.repository.CategoryRepository
 import com.example.dicket.data.repository.EventRepository
+import com.example.dicket.data.repository.LocationRepository
 import com.example.dicket.data.util.DatabaseInitializer
 import dagger.Module
 import dagger.Provides
@@ -43,15 +47,41 @@ object DicketModule {
 
     @Singleton
     @Provides
-    fun getRepository(dao: EventDao): EventRepository {
+    fun getEventRepository(dao: EventDao): EventRepository {
         return EventRepository(dao)
     }
 
     @Singleton
     @Provides
-    fun getDao(database: DicketDatabase): EventDao {
+    fun getEventDao(database: DicketDatabase): EventDao {
         return database.eventDao()
     }
+
+    @Singleton
+    @Provides
+    fun getCategoryRepository(dao: CategoryDao): CategoryRepository {
+        return CategoryRepository(dao)
+    }
+
+    @Singleton
+    @Provides
+    fun getCategoryDao(database: DicketDatabase): CategoryDao {
+        return database.categoryDao()
+    }
+
+    @Singleton
+    @Provides
+    fun getLocationRepository(dao: LocationDao): LocationRepository {
+        return LocationRepository(dao)
+    }
+
+    @Singleton
+    @Provides
+    fun getLocationDao(database: DicketDatabase): LocationDao {
+        return database.locationDao()
+    }
+
+
 
     @Singleton
     @Provides

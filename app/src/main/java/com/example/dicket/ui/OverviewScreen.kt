@@ -26,12 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
+import com.example.dicket.data.entity.Event
 
 @Composable
 fun OverviewScreen(
     modifier: Modifier = Modifier,
     viewModel: OverviewViewModel = hiltViewModel(),
-    // onOpenDetail: (Event) -> Unit,
+    onOpenDetail: (Event) -> Unit,
 ) {
     val allEvents = viewModel.allEvents
 
@@ -58,7 +59,7 @@ fun OverviewScreen(
             Column(modifier = modifier
                 .padding(bottom = 20.dp)
                 .clickable {
-                    // onOpenDetail(event)
+                    onOpenDetail(event)
                 }) {
                 Image(
                     painter = painterResource(id = R.drawable.example_party),
@@ -97,6 +98,6 @@ fun OverviewScreen(
 @Composable
 fun OverviewScreenPreview() {
     OverviewScreen(
-        // onOpenDetail = {}
+        onOpenDetail = {}
     )
 }

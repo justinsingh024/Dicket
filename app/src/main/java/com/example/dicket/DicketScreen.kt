@@ -2,8 +2,8 @@ package com.example.dicket
 
 import android.util.Log
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -20,7 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -28,7 +28,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.dicket.model.Event
 import com.example.dicket.service.MockService
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
@@ -36,8 +35,6 @@ import com.example.dicket.ui.LoginScreen
 import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
 import com.example.dicket.ui.OverviewViewModel
-import java.time.LocalDate
-import java.time.LocalTime
 
 private const val TAG = "DicketScreen"
 
@@ -78,10 +75,11 @@ fun DicketAppBar(
 
 @Composable
 fun DicketApp(
-    viewModel: OverviewViewModel = viewModel(),
+    viewModel: OverviewViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
-
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             DicketAppBar(
@@ -92,13 +90,14 @@ fun DicketApp(
             )
         },
         bottomBar = {
-            BottomNavigation(
-                backgroundColor = Color(255, 128, 54)
+            NavigationBar(
+                containerColor = Color(255, 128, 54)
+            //backgroundColor = Color(255, 128, 54)
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 DicketScreen.entries.forEach { screen ->
-                    BottomNavigationItem(
+                    NavigationBarItem(
                         icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                         label = { Text(screen.toString()) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.toString() } == true,
@@ -124,7 +123,6 @@ fun DicketApp(
         containerColor = Color(0xFF111620)
 
     ) { innerPadding ->
-        val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = DicketScreen.Overview.name,
@@ -132,48 +130,26 @@ fun DicketApp(
         ) {
             composable(route = DicketScreen.Overview.name) {
                 OverviewScreen(
-                    //onOpenDetail = {
-                    // Log.d(TAG, "Event has been clicked")
-                    // navController.navigate(DicketScreen.Detail.name)
-                    //}
+                    onOpenDetail = {
+                        viewModel.setClickedEvent(it)
+                        Log.d("DicketScreen", "EventCategory: ${it.eventID}")
+                        navController.navigate(DicketScreen.Detail.name)
+                    }
                 )
             }
             composable(route = DicketScreen.Detail.name) {
-                val exampleEvent = Event(
-                    title = "Amazing Event",
-                    rating = 3.5f,
-                    description = "Join us for an incredible experience!",
-                    minAge = 18,
-                    entry = LocalTime.of(18, 30),
-                    date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
-                    location = "Fantastic Venue",
-                    image = "https://example.com/sample_image.jpg",
-                    category = "Entertainment",
-                    price = 49.99,
-                    latestCancelingDate = System.currentTimeMillis() - 86400000,  // Set to 24 hours ago
-                    maxQuantityTicket = 200
-                )
-                DetailScreen(event = exampleEvent, onBuyPressed = {
-                    Log.d(TAG, "Buy has been clicked")
+                DetailScreen(event = uiState.clickedEvent ?: error("Clicked event is null"),
+                    categorie = uiState.clickedEventCategory ?: error("Clicked category is null"),
+                    location = uiState.clickedEventLocation ?: error("Clicked location is null"),
+                    onBuyPressed = {
                     navController.navigate(DicketScreen.Buy.name)
                 })
             }
             composable(route = DicketScreen.Buy.name) {
-                val exampleEvent = Event(
-                    title = "Amazing Event",
-                    rating = 3.5f,
-                    description = "Join us for an incredible experience!",
-                    minAge = 18,
-                    entry = LocalTime.of(18, 30),
-                    date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
-                    location = "Fantastic Venue",
-                    image = "https://example.com/sample_image.jpg",
-                    category = "Entertainment",
-                    price = 49.99,
-                    latestCancelingDate = System.currentTimeMillis() - 86400000,  // Set to 24 hours ago
-                    maxQuantityTicket = 200
-                )
-                BuyScreen(event = exampleEvent)
+                BuyScreen(
+                    event = uiState.clickedEvent ?: error("Clicked event is null"),
+                    location = uiState.clickedEventLocation ?: error("Clicked location is null"),
+                    )
             }
             composable(route = DicketScreen.MyProfile.name) {
                 MyProfilScreen(myEvents = MockService.allEvents,

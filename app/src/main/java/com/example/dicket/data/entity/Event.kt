@@ -15,9 +15,9 @@ import java.time.LocalTime
             childColumns = ["location"]
         ),
         ForeignKey(
-            entity = Categorie::class,
-            parentColumns = ["categorieID"],
-            childColumns = ["categorie"]
+            entity = Category::class,
+            parentColumns = ["categoryID"],
+            childColumns = ["category"]
         )
     ]
 )
@@ -32,7 +32,7 @@ data class Event(
     var date: LocalDate,
     var location: Int,
     var image: String,
-    var categorie: Int,
+    var category: Int,
     var price: Double,
     var latestCancelingDate: Long,
     var maxQuantityTicket: Int
