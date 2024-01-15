@@ -7,6 +7,7 @@ import com.example.dicket.data.EventUiState
 import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.Location
+import com.example.dicket.data.entity.User
 import com.example.dicket.data.repository.CategoryRepository
 import com.example.dicket.data.repository.EventRepository
 import com.example.dicket.data.repository.LocationRepository
@@ -78,5 +79,17 @@ class OverviewViewModel @Inject constructor(
 
         val location: Location? = locationRepository.getLocationById(event.location)
         _uiState.value = _uiState.value.copy(clickedEventLocation = location)
+    }
+
+    fun getEventsByUserOrganizer(user: User?): List<Event> {
+        return eventRepository.getEventsByUserOrganizer(user)
+    }
+
+    fun getEventsByUserTickets(user: User?): List<Event> {
+        return eventRepository.getEventsByUserTickets(user)
+    }
+
+    fun getLocationByEvent(event: Event): Location? {
+        return locationRepository.getLocationById(event.location)
     }
 }

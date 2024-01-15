@@ -28,7 +28,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.dicket.service.MockService
 import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
 import com.example.dicket.ui.LoginScreen
@@ -156,8 +155,8 @@ fun DicketApp(
                 MyProfilScreen(
                     currentUser = uiState.currentUser,
                     isLoggedIn = uiState.isLoggedIn,
-                    myEvents = MockService.allEvents,
-                    myTickets = MockService.allEvents,
+                    myEvents = viewModel.getEventsByUserOrganizer(uiState.currentUser),
+                    myTickets = viewModel.getEventsByUserTickets(uiState.currentUser),
                     onLoginPressed = {
                         navController.navigate(DicketScreen.Login.name)
                     },

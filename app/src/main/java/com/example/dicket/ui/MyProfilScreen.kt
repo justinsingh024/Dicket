@@ -32,16 +32,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
 import com.example.dicket.data.entity.User
-import com.example.dicket.model.Event
-import com.example.dicket.service.MockService
+import com.example.dicket.data.entity.Event
 
 @Composable
 fun MyProfilScreen(
+    viewModel: OverviewViewModel = hiltViewModel(),
     currentUser: User?,
     isLoggedIn: Boolean,
     modifier: Modifier = Modifier,
-    myEvents: List<Event>,
-    myTickets: List<Event>,
+    myEvents: List<Event>?,
+    myTickets: List<Event>?,
     onLoginPressed: () -> Unit,
     onLogoutPressed: () -> Unit,
 ) {
@@ -65,13 +65,15 @@ fun MyProfilScreen(
 
         if(isLoggedIn){
             PaymentScreen(modifier = modifier.weight(2f))
-            Text(text = "Your Events")
+            Text(text = if (myEvents.isNullOrEmpty()) "You have no Events" else "Your Events")
+
+
             Spacer(modifier = modifier.height(8.dp))
-            EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
+            EventsListingScreen(modifier = modifier.weight(3f), myEvents, viewModel)
             Spacer(modifier = modifier.height(16.dp))
-            Text(text = "Your Tickets")
+            Text(text = if (myTickets.isNullOrEmpty()) "You have no Tickets" else "Your Tickets")
             Spacer(modifier = modifier.height(8.dp))
-            EventsListingScreen(modifier = modifier.weight(3f), MockService.allEvents)
+            EventsListingScreen(modifier = modifier.weight(3f), myTickets, viewModel)
         }
     }
 }
@@ -155,10 +157,16 @@ fun PaymentScreen(
 
 @Composable
 fun EventsListingScreen(
-    modifier: Modifier = Modifier, myEvents: List<Event>
+    modifier: Modifier = Modifier,
+    myEventsMaybeNull: List<Event>?,
+    viewModel: OverviewViewModel = hiltViewModel(),
 ) {
+    var myEvents: List<Event>? = myEventsMaybeNull
+    if(myEvents == null){
+        myEvents = emptyList()
+    }
     LazyColumn(modifier = modifier) {
-        items(myEvents) {
+        items(myEvents) {event ->
             Card(
                 modifier = modifier
                     .fillMaxWidth()
@@ -185,9 +193,9 @@ fun EventsListingScreen(
                             .align(Alignment.CenterVertically)
                             .padding(8.dp)
                     ) {
-                        Text(text = it.title)
-                        Text(text = "${it.date} ${it.entry}")
-                        Text(text = it.location)
+                        Text(text = event.title)
+                        Text(text = "${event.date} ${event.entry}")
+                        viewModel.getLocationByEvent(event)?.let { Text(text = it.locationName) }
                     }
 
                 }
@@ -196,13 +204,6 @@ fun EventsListingScreen(
             Spacer(modifier = modifier.height(4.dp))
         }
     }
-}
-
-@Composable
-fun EventListing(
-    modifier: Modifier = Modifier
-) {
-
 }
 
 /*

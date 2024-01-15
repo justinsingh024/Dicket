@@ -150,7 +150,8 @@ fun DetailScreenPreview() {
         category = 1,
         price = 49.99,
         latestCancelingDate = System.currentTimeMillis() - 86400000,  // Set to 24 hours ago
-        maxQuantityTicket = 200
+        maxQuantityTicket = 200,
+        organizer = 1
     )
     DetailScreen(
         event = exampleEvent,

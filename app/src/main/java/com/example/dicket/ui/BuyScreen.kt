@@ -63,7 +63,8 @@ fun BuyScreen() {
         category = 2,
         price = 49.99,
         latestCancelingDate = System.currentTimeMillis() - 86400000,  // Set to 24 hours ago
-        maxQuantityTicket = 200
+        maxQuantityTicket = 200,
+        organizer = 1
     )
     val exampleLocation = Location(
         locationID = 2,

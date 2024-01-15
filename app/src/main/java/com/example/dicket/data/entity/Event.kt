@@ -18,6 +18,11 @@ import java.time.LocalTime
             entity = Category::class,
             parentColumns = ["categoryID"],
             childColumns = ["category"]
+        ),
+        ForeignKey(
+            entity = User::class,
+            parentColumns = ["userID"],
+            childColumns = ["organizer"]
         )
     ]
 )
@@ -35,5 +40,6 @@ data class Event(
     var category: Int,
     var price: Double,
     var latestCancelingDate: Long,
-    var maxQuantityTicket: Int
+    var maxQuantityTicket: Int,
+    var organizer: Int
 )

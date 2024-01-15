@@ -5,7 +5,6 @@ import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.Helps
 import com.example.dicket.data.entity.Location
-import com.example.dicket.data.entity.Organizes
 import com.example.dicket.data.entity.Ticket
 import com.example.dicket.data.entity.User
 import java.time.LocalDate
@@ -13,16 +12,15 @@ import java.time.LocalTime
 
 class DatabaseInitializer {
     suspend fun insertExampleData(database: DicketDatabase) {
-        val categorieDao = database.categoryDao()
+        val categoryDao = database.categoryDao()
         val locationDao = database.locationDao()
         val eventDao = database.eventDao()
         val ticketDao = database.ticketDao()
-        val organizesDao = database.organizesDao()
         val userDao = database.userDao()
         val helpsDao = database.helpsDao()
 
         // Beispiel-Daten für Categorie
-        categorieDao.insertCategory(Category(1, "Musik"))
+        categoryDao.insertCategory(Category(1, "Musik"))
 
         // Beispiel-Daten für Location
         locationDao.insertLocation(
@@ -47,27 +45,6 @@ class DatabaseInitializer {
         )
         locationDao.insertLocation(Location(3, "Breitestraße", "ZKM", "10", "Karlsruhe", 76132))
         locationDao.insertLocation(Location(4, "Moltkestraße", "B-Bau", "17", "Karlsruhe", 76133))
-
-        // Beispiel-Daten für Eventen
-        for (i in 1..4) {
-            eventDao.insert(
-                Event(
-                    i,
-                    "Event $i",
-                    1.5f + i,
-                    "Beschreibung für Event $i",
-                    18,
-                    LocalTime.of(20, 30),
-                    LocalDate.of(2024, 4, 3 + i),
-                    1,  // Hier festlegen, welche Location-ID zugeordnet wird
-                    "bild_$i.jpg",
-                    1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
-                    50.0 + i * 10,
-                    System.currentTimeMillis() - 86400000,
-                    1000
-                )
-            )
-        }
 
         // Beispiel-Daten für User
         userDao.insertUser(
@@ -95,16 +72,33 @@ class DatabaseInitializer {
             )
         )
 
-
-        // Beispiel-Daten für Tickets
+        // Beispiel-Daten für Eventen
         for (i in 1..4) {
-            val ticket = Ticket("ABC${i}123", "2022-01-0$i", false, false, false, i, 1, 2)
-            ticketDao.insertTicket(ticket)
+            eventDao.insert(
+                Event(
+                    i,
+                    "Event $i",
+                    1.5f + i,
+                    "Beschreibung für Event $i",
+                    18,
+                    LocalTime.of(20, 30),
+                    LocalDate.of(2024, 4, 3 + i),
+                    1,  // Hier festlegen, welche Location-ID zugeordnet wird
+                    "bild_$i.jpg",
+                    1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
+                    50.0 + i * 10,
+                    System.currentTimeMillis() - 86400000,
+                    1000,
+                    1
+                )
+            )
         }
 
-        // Beispiel-Daten für Organizes
-        for (i in 1..4) {
-            organizesDao.insertOrganizes(Organizes(2, i))
+
+        // Beispiel-Daten für Tickets
+        for (i in 3..4) {
+            val ticket = Ticket("ABC${i}123", "2022-01-0$i", false, false, false, i, 1, 2)
+            ticketDao.insertTicket(ticket)
         }
 
         // Beispiel-Daten für Helps
