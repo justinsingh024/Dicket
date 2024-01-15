@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dicket.data.entity.Event
@@ -38,8 +41,16 @@ fun BuyScreen(modifier: Modifier = Modifier, event: Event, location: Location) {
                 .weight(0.75f)
                 .padding(12.dp),
             onClick = { /*TODO*/ },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(
+                    255,
+                    128,
+                    54
+                )
+            ), // Change the color as needed
+            shape = RoundedCornerShape(8.dp)
 
-            ) {
+        ) {
             Text(text = "Bezahlen: ${event.price}€")
         }
     }

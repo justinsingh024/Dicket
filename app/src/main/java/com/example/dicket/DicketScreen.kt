@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -102,7 +103,11 @@ fun DicketApp(
                             Icon(
                                 Icons.Filled.Favorite,
                                 contentDescription = null,
-                                tint = Color(255, 128, 54)
+                                tint = if (currentDestination?.hierarchy?.any { it.route == screen.toString() } == true) {
+                                    Color(0xFF242323) // Selected color
+                                } else {
+                                    Color(255, 128, 54) // Unselected color
+                                }
                             )
                         },
                         label = { Text(screen.toString(), color = Color(255, 128, 54)) },
@@ -121,7 +126,14 @@ fun DicketApp(
                                 // Restore state when reselecting a previously selected item
                                 restoreState = true
                             }
-                        }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color(
+                                255,
+                                128,
+                                54
+                            )
+                        )
                     )
                 }
             }
