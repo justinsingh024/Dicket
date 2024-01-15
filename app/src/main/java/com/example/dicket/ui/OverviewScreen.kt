@@ -76,7 +76,7 @@ fun OverviewScreen(
                         .shadow(10.dp) // Adjust the shadow elevation as needed
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.example_party),
+                        painter = painterResource(id = getResourceIdByName(event.image)),
                         contentDescription = "Party",
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
@@ -110,6 +110,11 @@ fun OverviewScreen(
 
         }
     }
+}
+
+private fun getResourceIdByName(fileName: String): Int {
+    val resourceIdName = fileName.substringBeforeLast(".")
+    return R.drawable::class.java.getField(resourceIdName).getInt(null)
 }
 
 @Preview

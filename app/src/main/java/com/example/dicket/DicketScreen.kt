@@ -46,7 +46,7 @@ import com.example.dicket.ui.OverviewViewModel
 
 //private const val TAG = "DicketScreen"
 
-enum class DicketScreen() {
+enum class DicketScreen {
     Overview,
     Detail,
     Buy,
