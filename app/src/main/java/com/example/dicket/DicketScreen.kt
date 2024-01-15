@@ -179,71 +179,81 @@ fun DicketApp(
                 )
             }
             composable(route = DicketScreen.MyProfile.name) {
-                MyProfilScreen(
-                    currentUser = uiState.currentUser,
-                    isLoggedIn = uiState.isLoggedIn,
-                    myEvents = viewModel.getEventsByUserOrganizer(uiState.currentUser),
-                    myTickets = viewModel.getEventsByUserTickets(uiState.currentUser),
-                    onLoginPressed = {
-                        navController.navigate(DicketScreen.Login.name)
-                    },
-                    onLogoutPressed = {
-                        viewModel.logout()
-                        navController.navigate(DicketScreen.MyProfile.name)
-                    }
-                )
-            }
-            composable(route = DicketScreen.Login.name) {
-                var showDialog by remember { mutableStateOf(false) }
-
-                LoginScreen(
-                    onLoginClicked = { mail, password ->
-                        val loginCheck = viewModel.login(mail, password)
-                        if (loginCheck) {
+                if(uiState.isLoggedIn){
+                    MyProfilScreen(
+                        currentUser = uiState.currentUser,
+                        isLoggedIn = uiState.isLoggedIn,
+                        myEvents = viewModel.getEventsByUserOrganizer(uiState.currentUser),
+                        myTickets = viewModel.getEventsByUserTickets(uiState.currentUser),
+                        onLoginPressed = {
+                            navController.navigate(DicketScreen.Login.name)
+                        },
+                        onLogoutPressed = {
+                            viewModel.logout()
                             navController.navigate(DicketScreen.MyProfile.name)
-                        } else {
-                            showDialog = true
-                        }
-                        loginCheck
-                    },
-                    onLoginFailed = {
-                        showDialog = true
-                    }
-                )
-
-                if (showDialog) {
-                    AlertDialog(
-                        onDismissRequest = { showDialog = false },
-                        title = {
-                            Text(
-                                "Login failed!",
-                                modifier = Modifier
-                                    .padding(bottom = 8.dp)
-                                    .fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        text = {
-                            Text(
-                                "Incorrect e-mail or password",
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                        },
-                        confirmButton = {
-                            Button(
-                                onClick = { showDialog = false },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 8.dp)
-                            ) {
-                                Text("Try agian")
-                            }
                         }
                     )
+                }else {
+                    ShowLoginScreen(viewModel, navController)
                 }
+
+            }
+            composable(route = DicketScreen.Login.name) {
+                ShowLoginScreen(viewModel, navController)
             }
         }
+    }
+}
+
+@Composable
+fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostController){
+    var showDialog by remember { mutableStateOf(false) }
+
+    LoginScreen(
+        onLoginClicked = { mail, password ->
+            val loginCheck = viewModel.login(mail, password)
+            if (loginCheck) {
+                navController.navigate(DicketScreen.MyProfile.name)
+            } else {
+                showDialog = true
+            }
+            loginCheck
+        },
+        onLoginFailed = {
+            showDialog = true
+        }
+    )
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    "Login failed!",
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Text(
+                    "Incorrect e-mail or password",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text("Try agian")
+                }
+            }
+        )
     }
 }
 
