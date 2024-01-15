@@ -17,7 +17,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 @Composable
-fun BuyScreen(modifier: Modifier = Modifier, event: Event, location: Location,) {
+fun BuyScreen(modifier: Modifier = Modifier, event: Event, location: Location) {
     Column {
         Column(
             modifier = modifier
@@ -72,7 +72,7 @@ fun BuyScreen() {
         locationName = "Kunsthalle",
         houseNumber = "8",
         city = "Karlsruhe",
-        plz= 76135
+        plz = 76135
     )
     BuyScreen(event = exampleEvent, location = exampleLocation)
 }

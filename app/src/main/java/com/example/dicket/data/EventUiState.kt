@@ -12,4 +12,5 @@ data class EventUiState(
     val clickedEventCategory: Category? = null,
     val clickedEventLocation: Location? = null,
     val currentUser: User? = null,
+    var loginFailed: Boolean = false,
 )

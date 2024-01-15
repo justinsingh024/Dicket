@@ -50,20 +50,23 @@ class OverviewViewModel @Inject constructor(
     }
 
 
-/*
-    fun login(mail: String, password: String) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                isLoggedIn = true
-            )
+    /*
+        fun login(mail: String, password: String) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoggedIn = true
+                )
+            }
         }
-    }
-    */
+        */
 
-    fun login(mail: String, password: String) {
-        _uiState.value = _uiState.value.copy(currentUser = userRepository.getUserByMail(mail))
+    fun login(mail: String, password: String): Boolean {
+        val user: User = userRepository.getUserByMailAndPassword(mail, password) ?: return false
+        //_uiState.value = _uiState.value.copy(currentUser = userRepository.getUserByMail(mail))
+        _uiState.value = _uiState.value.copy(currentUser = user)
         Log.d("OverviewViewModel", "UserMail: $mail")
         _uiState.value = _uiState.value.copy(isLoggedIn = true)
+        return true
     }
 
     fun logout() {

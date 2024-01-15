@@ -1,15 +1,18 @@
 package com.example.dicket
 
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -17,9 +20,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -35,9 +43,10 @@ import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
 import com.example.dicket.ui.OverviewViewModel
 
+
 //private const val TAG = "DicketScreen"
 
-enum class DicketScreen() {
+enum class DicketScreen {
     Overview,
     Detail,
     Buy,
@@ -91,7 +100,7 @@ fun DicketApp(
         bottomBar = {
             NavigationBar(
                 containerColor = Color(255, 128, 54)
-            //backgroundColor = Color(255, 128, 54)
+                //backgroundColor = Color(255, 128, 54)
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
@@ -142,14 +151,14 @@ fun DicketApp(
                     categorie = uiState.clickedEventCategory ?: error("Clicked category is null"),
                     location = uiState.clickedEventLocation ?: error("Clicked location is null"),
                     onBuyPressed = {
-                    navController.navigate(DicketScreen.Buy.name)
-                })
+                        navController.navigate(DicketScreen.Buy.name)
+                    })
             }
             composable(route = DicketScreen.Buy.name) {
                 BuyScreen(
                     event = uiState.clickedEvent ?: error("Clicked event is null"),
                     location = uiState.clickedEventLocation ?: error("Clicked location is null"),
-                    )
+                )
             }
             composable(route = DicketScreen.MyProfile.name) {
                 MyProfilScreen(
@@ -167,12 +176,59 @@ fun DicketApp(
                 )
             }
             composable(route = DicketScreen.Login.name) {
-                LoginScreen(onLoginClicked = { mail, password ->
-                    viewModel.login(mail, password)
-                    navController.navigate(DicketScreen.MyProfile.name)
-                })
+                var showDialog by remember { mutableStateOf(false) }
+
+                LoginScreen(
+                    onLoginClicked = { mail, password ->
+                        val loginCheck = viewModel.login(mail, password)
+                        if (loginCheck) {
+                            navController.navigate(DicketScreen.MyProfile.name)
+                        } else {
+                            showDialog = true
+                        }
+                        loginCheck
+                    },
+                    onLoginFailed = {
+                        showDialog = true
+                    }
+                )
+
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showDialog = false },
+                        title = {
+                            Text(
+                                "Login failed!",
+                                modifier = Modifier
+                                    .padding(bottom = 8.dp)
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        text = {
+                            Text(
+                                "Incorrect e-mail or password",
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = { showDialog = false },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp)
+                            ) {
+                                Text("Try agian")
+                            }
+                        }
+                    )
+                }
             }
         }
     }
 }
+
+
+
 

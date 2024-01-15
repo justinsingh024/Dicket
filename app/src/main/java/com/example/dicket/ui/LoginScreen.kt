@@ -27,18 +27,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.dicket.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(onLoginClicked: (String, String) -> Unit) {
+fun LoginScreen(
+    onLoginClicked: (String, String) -> Boolean,
+    onLoginFailed: () -> Unit // Callback für den Fall, dass die Anmeldung fehlschlägt
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -87,22 +87,24 @@ fun LoginScreen(onLoginClicked: (String, String) -> Unit) {
                 .fillMaxWidth()
                 .padding(8.dp)
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { onLoginClicked(email, password) },
-            modifier = Modifier
-                .fillMaxWidth()
+            onClick = {
+                val loginCheck = onLoginClicked(email, password)
+                if (!loginCheck) onLoginFailed()
+            }
         ) {
             Text("Login")
         }
     }
 }
-
+/*
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(onLoginClicked = { _, _ -> })
 }
+
+ */

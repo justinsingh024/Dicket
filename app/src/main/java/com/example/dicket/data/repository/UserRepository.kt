@@ -8,4 +8,8 @@ class UserRepository @Inject constructor(private val userDao: UserDao) {
     fun getUserByMail(email: String): User? {
         return userDao.getUserByMail(email)
     }
+
+    fun getUserByMailAndPassword(email: String, password: String): User? {
+        return userDao.getUserByMailAndPassword(email, password)
+    }
 }

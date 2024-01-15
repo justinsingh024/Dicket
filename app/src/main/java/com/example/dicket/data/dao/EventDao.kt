@@ -28,9 +28,11 @@ interface EventDao {
     @Query("SELECT * from event WHERE organizer = :userId")
     fun getEventsByOrganizer(userId: Int): List<Event>
 
-    @Query("SELECT * FROM event " +
-            "JOIN ticket ON event.eventID = ticket.eventID " +
-            "WHERE ticket.userID = :userId")
+    @Query(
+        "SELECT * FROM event " +
+                "JOIN ticket ON event.eventID = ticket.eventID " +
+                "WHERE ticket.userID = :userId"
+    )
     fun getEventsByUserTickets(userId: Int): List<Event>
 
 }

@@ -39,7 +39,8 @@ fun DetailScreen(
     event: Event,
     categorie: Category,
     location: Location,
-    onBuyPressed: (Event) -> Unit) {
+    onBuyPressed: (Event) -> Unit
+) {
     Column {
         Image(
             painter = painterResource(id = R.drawable.example_party),
@@ -132,7 +133,7 @@ fun DetailScreenPreview() {
         locationName = "Kunsthalle",
         houseNumber = "8",
         city = "Karlsruhe",
-        plz= 76135
+        plz = 76135
     )
 
     val exampleCategory = Category(categoryID = 1, name = "Musik")
