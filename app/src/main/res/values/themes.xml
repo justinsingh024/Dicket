@@ -3,7 +3,7 @@
 
     <style name="Theme.MySplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/spash_logo_big</item>
         <item name="postSplashScreenTheme">@style/Theme.Dicket</item>
     </style>
 

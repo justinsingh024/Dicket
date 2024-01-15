@@ -56,7 +56,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.splash_logo),
+            painter = painterResource(id = R.drawable.spash_logo_big),
             contentDescription = null,
             modifier = Modifier.size(190.dp)
         )
