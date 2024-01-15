@@ -21,7 +21,7 @@ class EventRepository @Inject constructor(private val eventDao: EventDao) {
     fun getEventsByUserOrganizer(user: User?): List<Event> {
         return if (user != null) {
             eventDao.getEventsByOrganizer(user.userID)
-        }else{
+        } else {
             emptyList()
         }
     }
@@ -29,7 +29,7 @@ class EventRepository @Inject constructor(private val eventDao: EventDao) {
     fun getEventsByUserTickets(user: User?): List<Event> {
         return if (user != null) {
             eventDao.getEventsByUserTickets(user.userID)
-        }else{
+        } else {
             emptyList()
         }
     }

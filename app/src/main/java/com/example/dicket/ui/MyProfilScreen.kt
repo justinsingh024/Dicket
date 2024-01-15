@@ -31,15 +31,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
-import com.example.dicket.data.entity.User
 import com.example.dicket.data.entity.Event
+import com.example.dicket.data.entity.User
 
 @Composable
 fun MyProfilScreen(
+    modifier: Modifier = Modifier,
     viewModel: OverviewViewModel = hiltViewModel(),
     currentUser: User?,
     isLoggedIn: Boolean,
-    modifier: Modifier = Modifier,
     myEvents: List<Event>?,
     myTickets: List<Event>?,
     onLoginPressed: () -> Unit,
@@ -63,7 +63,7 @@ fun MyProfilScreen(
             onLogoutPressed,
         )
 
-        if(isLoggedIn){
+        if (isLoggedIn) {
             PaymentScreen(modifier = modifier.weight(2f))
             Text(text = if (myEvents.isNullOrEmpty()) "You have no Events" else "Your Events")
 
@@ -87,7 +87,7 @@ fun LoginInfoScreen(
     onLogoutPressed: () -> Unit,
 ) {
     //Text(text = "My Login")
-    if(isLoggedIn) {
+    if (isLoggedIn) {
         val prename = currentUser?.prename
         val surname = currentUser?.surname
         Text(
@@ -103,13 +103,14 @@ fun LoginInfoScreen(
     Row(modifier = modifier) {
         Spacer(modifier = modifier.weight(3f))
 
-        if(isLoggedIn){
+        if (isLoggedIn) {
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                modifier = modifier.weight(1f), onClick = onLogoutPressed) {
+                modifier = modifier.weight(1f), onClick = onLogoutPressed
+            ) {
                 Text(text = "Logout")
             }
-        } else{
+        } else {
             Button(modifier = modifier.weight(1f), onClick = onLoginPressed) {
                 Text(text = "Login")
             }
@@ -162,11 +163,11 @@ fun EventsListingScreen(
     viewModel: OverviewViewModel = hiltViewModel(),
 ) {
     var myEvents: List<Event>? = myEventsMaybeNull
-    if(myEvents == null){
+    if (myEvents == null) {
         myEvents = emptyList()
     }
     LazyColumn(modifier = modifier) {
-        items(myEvents) {event ->
+        items(myEvents) { event ->
             Card(
                 modifier = modifier
                     .fillMaxWidth()

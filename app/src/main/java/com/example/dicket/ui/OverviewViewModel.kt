@@ -50,15 +50,15 @@ class OverviewViewModel @Inject constructor(
     }
 
 
-/*
-    fun login(mail: String, password: String) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                isLoggedIn = true
-            )
+    /*
+        fun login(mail: String, password: String) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoggedIn = true
+                )
+            }
         }
-    }
-    */
+        */
 
     fun login(mail: String, password: String) {
         _uiState.value = _uiState.value.copy(currentUser = userRepository.getUserByMail(mail))

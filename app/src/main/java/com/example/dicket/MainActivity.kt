@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DicketTheme {
-                SetStatusBarColor(colorStatusBar = Color(0xFF242323), Color(255, 128, 54))
+                SetStatusBarColor(colorStatusBar = Color(0xFF242323), Color(0xFF242323))
                 DicketApp()
             }
         }

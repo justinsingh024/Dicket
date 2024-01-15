@@ -2,14 +2,14 @@ package com.example.dicket
 
 import android.util.Log
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,7 +37,7 @@ import com.example.dicket.ui.OverviewViewModel
 
 //private const val TAG = "DicketScreen"
 
-enum class DicketScreen() {
+enum class DicketScreen {
     Overview,
     Detail,
     Buy,
@@ -90,15 +90,22 @@ fun DicketApp(
         },
         bottomBar = {
             NavigationBar(
-                containerColor = Color(255, 128, 54)
-            //backgroundColor = Color(255, 128, 54)
+                containerColor = Color(0xFF242323)
+                //containerColor = Color(255, 128, 54)
+                //backgroundColor = Color(255, 128, 54)
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 DicketScreen.entries.forEach { screen ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-                        label = { Text(screen.toString()) },
+                        icon = {
+                            Icon(
+                                Icons.Filled.Favorite,
+                                contentDescription = null,
+                                tint = Color(255, 128, 54)
+                            )
+                        },
+                        label = { Text(screen.toString(), color = Color(255, 128, 54)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.toString() } == true,
                         onClick = {
                             navController.navigate(screen.toString()) {
@@ -142,14 +149,14 @@ fun DicketApp(
                     categorie = uiState.clickedEventCategory ?: error("Clicked category is null"),
                     location = uiState.clickedEventLocation ?: error("Clicked location is null"),
                     onBuyPressed = {
-                    navController.navigate(DicketScreen.Buy.name)
-                })
+                        navController.navigate(DicketScreen.Buy.name)
+                    })
             }
             composable(route = DicketScreen.Buy.name) {
                 BuyScreen(
                     event = uiState.clickedEvent ?: error("Clicked event is null"),
                     location = uiState.clickedEventLocation ?: error("Clicked location is null"),
-                    )
+                )
             }
             composable(route = DicketScreen.MyProfile.name) {
                 MyProfilScreen(
