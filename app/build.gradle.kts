@@ -84,7 +84,6 @@ dependencies {
     //implementation("androidx.activity:activity-compose:1.8.0-alpha07")
 
 
-
     //Dagger - Hilt
     val dagger_version = "2.48"
     implementation("com.google.dagger:hilt-android:$dagger_version")

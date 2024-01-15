@@ -36,10 +36,10 @@ import com.example.dicket.data.entity.User
 
 @Composable
 fun MyProfilScreen(
+    modifier: Modifier = Modifier,
     viewModel: OverviewViewModel = hiltViewModel(),
     currentUser: User?,
     isLoggedIn: Boolean,
-    modifier: Modifier = Modifier,
     myEvents: List<Event>?,
     myTickets: List<Event>?,
     onLoginPressed: () -> Unit,

@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -43,10 +44,9 @@ import com.example.dicket.ui.MyProfilScreen
 import com.example.dicket.ui.OverviewScreen
 import com.example.dicket.ui.OverviewViewModel
 
-
 //private const val TAG = "DicketScreen"
 
-enum class DicketScreen {
+enum class DicketScreen() {
     Overview,
     Detail,
     Buy,
@@ -99,15 +99,26 @@ fun DicketApp(
         },
         bottomBar = {
             NavigationBar(
-                containerColor = Color(255, 128, 54)
+                containerColor = Color(0xFF242323)
+                //containerColor = Color(255, 128, 54)
                 //backgroundColor = Color(255, 128, 54)
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 DicketScreen.entries.forEach { screen ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-                        label = { Text(screen.toString()) },
+                        icon = {
+                            Icon(
+                                Icons.Filled.Favorite,
+                                contentDescription = null,
+                                tint = if (currentDestination?.hierarchy?.any { it.route == screen.toString() } == true) {
+                                    Color(0xFF242323) // Selected color
+                                } else {
+                                    Color(255, 128, 54) // Unselected color
+                                }
+                            )
+                        },
+                        label = { Text(screen.toString(), color = Color(255, 128, 54)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.toString() } == true,
                         onClick = {
                             navController.navigate(screen.toString()) {
@@ -123,7 +134,14 @@ fun DicketApp(
                                 // Restore state when reselecting a previously selected item
                                 restoreState = true
                             }
-                        }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color(
+                                255,
+                                128,
+                                54
+                            )
+                        )
                     )
                 }
             }
@@ -228,7 +246,4 @@ fun DicketApp(
         }
     }
 }
-
-
-
 

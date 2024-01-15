@@ -11,15 +11,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -57,9 +59,14 @@ fun DetailScreen(
                 .verticalScroll(rememberScrollState())
                 .weight(4f)
         ) {
-            Text(text = event.title, fontSize = 30.sp, fontStyle = FontStyle.Italic)
+            Text(
+                text = event.title,
+                fontSize = 30.sp,
+                fontStyle = FontStyle.Italic,
+                color = Color.White
+            )
             Spacer(modifier = modifier.height(16.dp))
-            Text(text = event.description)
+            Text(text = event.description, color = Color.White)
             Spacer(modifier = modifier.height(16.dp))
             StarRating(rating = event.rating)
             PaddedText(label = "Price:", value = "${event.price}€")
@@ -78,8 +85,15 @@ fun DetailScreen(
             onClick = {
                 onBuyPressed(event)
             },
-
-            ) {
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(
+                    255,
+                    128,
+                    54
+                )
+            ), // Change the color as needed
+            shape = RoundedCornerShape(8.dp)
+        ) {
             Text(text = "Order Ticket")
         }
     }
@@ -91,11 +105,13 @@ fun PaddedText(label: String, value: String, modifier: Modifier = Modifier) {
     Row {
         Text(
             text = label,
-            modifier = modifier.weight(1f)
+            modifier = modifier.weight(1f),
+            color = Color(0xFF637394)
         )
         Text(
             text = value,
-            modifier = modifier.weight(2f)
+            modifier = modifier.weight(2f),
+            color = Color.White
         )
     }
 
@@ -106,18 +122,16 @@ fun StarRating(rating: Float) {
     LazyRow(
         modifier = Modifier
             .wrapContentSize()
-            .padding(4.dp)
+            .padding(start = 0.dp, top = 4.dp, end = 4.dp, bottom = 4.dp)
     ) {
         items(5) { index ->
             val filled = index < rating
             Icon(
                 imageVector = Icons.Default.Star,
                 contentDescription = null,
-                tint = if (filled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(
-                    alpha = 0.5f
-                ),
+                tint = if (filled) Color(255, 128, 54) else Color(0xFFD9D9D9),
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(28.dp)
                     .padding(2.dp)
             )
         }
