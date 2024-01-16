@@ -13,5 +13,6 @@ data class User(
     var password: String,
     var isVerified: Boolean,
     var discount: Double,
-    var birthdate: String
+    var birthdate: String,
+    var salt: ByteArray
 )

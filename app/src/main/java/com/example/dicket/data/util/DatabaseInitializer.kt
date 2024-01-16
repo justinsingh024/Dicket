@@ -7,6 +7,7 @@ import com.example.dicket.data.entity.Helps
 import com.example.dicket.data.entity.Location
 import com.example.dicket.data.entity.Ticket
 import com.example.dicket.data.entity.User
+import java.security.MessageDigest
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -116,28 +117,33 @@ class DatabaseInitializer {
 
 
         // Beispiel-Daten für User
+        val saltUser1 = generateRandomSalt()
         userDao.insertUser(
             User(
                 1,
                 "Max",
                 "Mustermann",
                 "max@example.com",
-                "passwort123",
+                hashPassword("test", saltUser1),
                 true,
                 10.0,
-                "1990-01-01"
+                "1990-01-01",
+                saltUser1
             )
         )
+
+        val saltUser2 = generateRandomSalt()
         userDao.insertUser(
             User(
                 2,
                 "Lisa",
                 "Müller",
                 "lisa@example.com",
-                "passwort321",
+                hashPassword("test", saltUser2),
                 true,
                 15.0,
-                "1997-05-06"
+                "1997-05-06",
+                saltUser2
             )
         )
 
@@ -311,5 +317,27 @@ class DatabaseInitializer {
         for (i in 1..4) {
             helpsDao.insertHelps(Helps(1, i))
         }
+    }
+
+    fun generateRandomSalt(length: Int = 15): ByteArray {
+        val salt = ByteArray(length)
+        java.security.SecureRandom().nextBytes(salt)
+        println(salt)
+        return salt
+    }
+
+    fun hashPassword(password: String, salt: ByteArray): String {
+        val md = MessageDigest.getInstance("SHA-256")
+        md.update(salt)
+        val hashedPassword = md.digest(password.toByteArray())
+
+        // Convert the byte array to a hexadecimal string
+        val hexChars = CharArray(hashedPassword.size * 2)
+        for (i in hashedPassword.indices) {
+            val v = hashedPassword[i].toInt() and 0xFF
+            hexChars[i * 2] = "0123456789ABCDEF"[v shr 4]
+            hexChars[i * 2 + 1] = "0123456789ABCDEF"[v and 0x0F]
+        }
+        return String(hexChars)
     }
 }

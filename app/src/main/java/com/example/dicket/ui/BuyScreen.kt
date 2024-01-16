@@ -184,7 +184,8 @@ fun BuyScreen() {
         password = "passwort123",
         isVerified = false,
         discount = 5.0,
-        birthdate = "1999-1-1"
+        birthdate = "1999-1-1",
+        byteArrayOf()
     )
     BuyScreen(
         event = exampleEvent,
