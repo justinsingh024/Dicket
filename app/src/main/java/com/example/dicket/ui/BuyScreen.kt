@@ -72,7 +72,7 @@ fun BuyScreen(
             shape = RoundedCornerShape(8.dp)
 
         ) {
-            Text(text = "Pay: ${event.price}€", fontSize = 18.sp)
+            Text(text = "Pay: ${String.format("%.2f€", event.price)}", fontSize = 18.sp)
         }
 
         if (showDialog) {
@@ -95,7 +95,12 @@ fun BuyScreen(
                 text = {
                     Text(
                         text = "Are you sure you want to proceed with " +
-                                "the purchase of ${event.title} for ${String.format("%.2f€", event.price)}?",
+                                "the purchase of ${event.title} for ${
+                                    String.format(
+                                        "%.2f€",
+                                        event.price
+                                    )
+                                }?",
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         color = Color.White

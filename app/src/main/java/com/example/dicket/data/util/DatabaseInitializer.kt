@@ -21,7 +21,7 @@ class DatabaseInitializer {
 
         // Beispiel-Daten für Categorie
         categoryDao.insertCategory(Category(1, "Festival"))
-        categoryDao.insertCategory(Category(2, "Dorfparty"))
+        categoryDao.insertCategory(Category(2, "Homeparty"))
         categoryDao.insertCategory(Category(3, "Technoparty"))
 
 
@@ -30,7 +30,7 @@ class DatabaseInitializer {
             Location(
                 1,
                 "Hauptstraße",
-                "Musikhalle",
+                "Concert-hall",
                 "7b",
                 "Karlsruhe",
                 76131
@@ -41,7 +41,7 @@ class DatabaseInitializer {
             Location(
                 2,
                 "Langestraße",
-                "Kunsthalle",
+                "Art-Gallery",
                 "8",
                 "Karlsruhe",
                 76135
@@ -147,10 +147,9 @@ class DatabaseInitializer {
                 1,
                 "Nature One",
                 4.5f,
-                "Nature One - Das ultimative Techno-Erlebnis! Sichere dir jetzt " +
-                        "Tickets für Deutschlands führendes Open-Air-Festival auf der " +
-                        "Raketenbasis Pydna und tauche ein in eine unvergessliche Welt " +
-                        "pulsierender Beats und elektronischer Energie.",
+                "Nature One - The ultimate techno experience! Get your tickets now for " +
+                        "Germany's leading open-air festival at Pydna Rocket Base and dive " +
+                        "into an unforgettable world of pulsating beats and electronic energy.",
                 18,
                 LocalTime.of(15, 30),
                 LocalDate.of(2024, 8, 1),
@@ -169,10 +168,10 @@ class DatabaseInitializer {
                 2,
                 "Mallorca Party",
                 4.5f,
-                "Mallorca Party - Feier den Sommer auf der Insel des puren Spaßes! " +
-                        "Hol dir deine Tickets für das angesagteste Event auf Mallorca und " +
-                        "erlebe unvergessliche Partynächte mit heißer Musik, guter Stimmung " +
-                        "und mediterranem Flair.",
+                "Mallorca Party - Celebrate the summer on the island of pure fun! " +
+                        "Get your tickets for the hottest event in Mallorca and " +
+                        "experience unforgettable party nights with hot music, good vibes, " +
+                        "and Mediterranean flair.",
                 16,
                 LocalTime.of(19, 0),
                 LocalDate.of(2024, 5, 4),
@@ -189,13 +188,13 @@ class DatabaseInitializer {
         eventDao.insert(
             Event(
                 3,
-                "Halloween Abriss",
+                "Halloween Special",
                 3.5f,
-                "Tauche ein in die düstere Welt des Schreckens! Sichere dir jetzt " +
-                        "Tickets für die ultimative Halloween-Party, wo gruselige Kostüme, " +
-                        "mitreißende Beats und schaurige Dekorationen für einen unvergesslichen " +
-                        "Abend sorgen. Lass dich von der Dunkelheit umarmen und erlebe einen " +
-                        "Abriss der besonderen Art.",
+                "Immerse yourself in the dark world of horror! Secure your tickets now for " +
+                        "the ultimate Halloween party, where spooky costumes, " +
+                        "captivating beats, and eerie decorations ensure an unforgettable " +
+                        "evening. Let yourself be embraced by the darkness and experience a " +
+                        "special kind of demolition.",
                 16,
                 LocalTime.of(19, 0),
                 LocalDate.of(2024, 10, 31),
@@ -214,12 +213,12 @@ class DatabaseInitializer {
                 4,
                 "Airbeat One",
                 4.5f,
-                "Schnall dich an für ein himmlisches Festivalerlebnis! Sichere dir " +
-                        "jetzt Tickets für die Airbeat One, wo atemberaubende Bühnen, " +
-                        "internationale Top-DJs und eine euphorische Atmosphäre die Luft zum " +
-                        "Vibrieren bringen. Tauche ein in die Welt der elektronischen Musik " +
-                        "und erlebe aufregende Nächte unter freiem Himmel. Airbeat One - " +
-                        "wo der Beat die Wolken durchbricht!",
+                "Buckle up for a heavenly festival experience! Secure your " +
+                        "tickets now for Airbeat One, where breathtaking stages, " +
+                        "international top DJs, and a euphoric atmosphere make the air " +
+                        "vibrate. Dive into the world of electronic music and experience " +
+                        "exciting nights under the open sky. Airbeat One - " +
+                        "where the beat breaks through the clouds!",
                 16,
                 LocalTime.of(17, 0),
                 LocalDate.of(2024, 7, 10),
@@ -236,14 +235,14 @@ class DatabaseInitializer {
         eventDao.insert(
             Event(
                 5,
-                "Wohnzimmer Session",
+                "Livingroom Session",
                 4.0f,
-                "Erlebe die unverwechselbare Fusion von Beats und Atmosphäre im " +
-                        "legendären Gotec Club! Hol dir jetzt deine Tickets und tauche ein in " +
-                        "eine Nacht voller elektronischer Ekstase. Mit erstklassigen DJs und " +
-                        "einer einzigartigen Clubkulisse wird die Gotec Techno Night zu einem " +
-                        "unvergesslichen Erlebnis für alle elektronischen Musikliebhaber. Sei " +
-                        "dabei und feiere im Herzstück der Techno-Szene!",
+                "Experience the distinctive fusion of beats and atmosphere in the " +
+                        "legendary Gotec Club! Get your tickets now and immerse yourself in " +
+                        "a night of electronic ecstasy. With top-notch DJs and a unique club " +
+                        "setting, the Gotec Techno Night becomes an unforgettable experience " +
+                        "for all electronic music lovers. Be there and celebrate in the " +
+                        "heart of the techno scene!",
                 16,
                 LocalTime.of(21, 0),
                 LocalDate.of(2024, 1, 22),
@@ -260,14 +259,14 @@ class DatabaseInitializer {
         eventDao.insert(
             Event(
                 6,
-                "Dorfmeisterschaft",
+                "Village championship",
                 4.0f,
-                "Feiere das Gemeinschaftsgefühl und den Spaß bei den " +
-                        "Dorfmeisterschaften! Hol dir deine Tickets und sei Teil dieses " +
-                        "einzigartigen Events, bei dem die lokale Musikszene, gute Stimmung " +
-                        "und gemeinschaftliches Feiern im Mittelpunkt stehen. Erlebe " +
-                        "unvergessliche Momente in deinem Dorf und feiere die Vielfalt " +
-                        "der örtlichen Talente. Dorfmeisterschaften - Wo die Freude zuhause ist!",
+                "Celebrate the sense of community and fun at the " +
+                        "Village Championships! Get your tickets and be part of this " +
+                        "unique event where the local music scene, good vibes, " +
+                        "and communal celebration take center stage. Experience " +
+                        "unforgettable moments in your village and celebrate the diversity " +
+                        "of local talents. Village Championships - Where joy is at home!",
                 14,
                 LocalTime.of(18, 0),
                 LocalDate.of(2024, 5, 1),
@@ -286,9 +285,9 @@ class DatabaseInitializer {
                 7,
                 "Techno meets Italo",
                 4.0f,
-                "Die perfekte Fusion aus kraftvollen Techno-Beats und mitreißenden " +
-                        "Italoschlager-Melodien. Erlebe einen unvergesslichen Abend voller " +
-                        "Kontraste und musikalischer Überraschungen!",
+                "The perfect fusion of powerful techno beats and captivating " +
+                        "Italo pop melodies. Experience an unforgettable evening full of " +
+                        "contrasts and musical surprises!",
                 14,
                 LocalTime.of(18, 0),
                 LocalDate.of(2024, 5, 1),
@@ -301,31 +300,6 @@ class DatabaseInitializer {
                 1
             )
         )
-
-        /*
-
-
-                for (i in 1..4) {
-                    eventDao.insert(
-                        Event(
-                            i,
-                            "Event $i",
-                            1.5f + i,
-                            "Beschreibung für Event $i",
-                            18,
-                            LocalTime.of(20, 30),
-                            LocalDate.of(2024, 4, 3 + i),
-                            1,  // Hier festlegen, welche Location-ID zugeordnet wird
-                            "bild_$i.jpg",
-                            1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
-                            50.0 + i * 10,
-                            System.currentTimeMillis() - 86400000,
-                            1000,
-                            1
-                        )
-                    )
-                }
-        */
 
         // Beispiel-Daten für Tickets
         for (i in 3..4) {

@@ -257,7 +257,10 @@ fun EventsListingScreen(
                     ) {
                         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                         Text(text = event.title, color = Color.White)
-                        Text(text = "${event.date.format(formatter)} ${event.entry} Uhr", color = Color.White)
+                        Text(
+                            text = "${event.date.format(formatter)} ${event.entry} Uhr",
+                            color = Color.White
+                        )
                         viewModel.getLocationByEvent(event)
                             ?.let { Text(text = it.locationName, color = Color(99, 115, 148)) }
                     }
