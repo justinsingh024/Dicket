@@ -1,6 +1,7 @@
 package com.example.dicket
 
 import android.util.Log
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -32,7 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -106,45 +106,65 @@ fun DicketApp(
             ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
-                DicketScreen.entries.forEach { screen ->
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                Icons.Filled.Favorite,
-                                contentDescription = null,
-                                tint = if (currentDestination?.hierarchy?.any { it.route == screen.toString() } == true) {
-                                    Color(0xFF242323) // Selected color
-                                } else {
-                                    Color(255, 128, 54) // Unselected color
-                                }
-                            )
-                        },
-                        label = { Text(screen.toString(), color = Color(255, 128, 54)) },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.toString() } == true,
-                        onClick = {
-                            navController.navigate(screen.toString()) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
-                                launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
-                                restoreState = true
+
+                // Linkes Element
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            contentDescription = null,
+                            tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.Overview.name } == true) {
+                                Color(0xFF242323) // Ausgewählte Farbe
+                            } else {
+                                Color(255, 128, 54) // Nicht ausgewählte Farbe
                             }
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = Color(
-                                255,
-                                128,
-                                54
-                            )
+                        )
+                    },
+                    label = { Text(DicketScreen.Overview.name, color = Color(255, 128, 54)) },
+                    selected = currentDestination?.hierarchy?.any { it.route == DicketScreen.Overview.name } == true,
+                    onClick = {
+                        navController.navigate(DicketScreen.Overview.name) {
+                        }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color(
+                            255,
+                            128,
+                            54
                         )
                     )
-                }
+                )
+
+                // Platzhalter für das mittlere Element
+                Spacer(modifier = Modifier.weight(1f))
+
+                // Rechtes Element
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            Icons.Filled.Favorite,
+                            contentDescription = null,
+                            tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true) {
+                                Color(0xFF242323) // Ausgewählte Farbe
+                            } else {
+                                Color(255, 128, 54) // Nicht ausgewählte Farbe
+                            }
+                        )
+                    },
+                    label = { Text(DicketScreen.MyProfile.name, color = Color(255, 128, 54)) },
+                    selected = currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true,
+                    onClick = {
+                        navController.navigate(DicketScreen.MyProfile.name) {
+                        }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color(
+                            255,
+                            128,
+                            54
+                        )
+                    )
+                )
             }
         },
         containerColor = Color(0xFF111620)
@@ -174,10 +194,18 @@ fun DicketApp(
                     })
             }
             composable(route = DicketScreen.Buy.name) {
-                BuyScreen(
-                    event = uiState.clickedEvent ?: error("Clicked event is null"),
-                    location = uiState.clickedEventLocation ?: error("Clicked location is null"),
-                )
+                if (uiState.isLoggedIn) {
+                    BuyScreen(
+                        event = uiState.clickedEvent ?: error("Clicked event is null"),
+                        location = uiState.clickedEventLocation
+                            ?: error("Clicked location is null"),
+                        user = uiState.currentUser ?: error("Clicked user is null"),
+                        navController = navController,
+                    )
+                } else {
+                    ShowLoginScreen(viewModel, navController, DicketScreen.Buy.name)
+                }
+
             }
             composable(route = DicketScreen.MyProfile.name) {
                 if (uiState.isLoggedIn) {
@@ -195,26 +223,30 @@ fun DicketApp(
                         }
                     )
                 } else {
-                    ShowLoginScreen(viewModel, navController)
+                    ShowLoginScreen(viewModel, navController, DicketScreen.MyProfile.name)
                 }
 
             }
             composable(route = DicketScreen.Login.name) {
-                ShowLoginScreen(viewModel, navController)
+                ShowLoginScreen(viewModel, navController, DicketScreen.MyProfile.name)
             }
         }
     }
 }
 
 @Composable
-fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostController) {
+fun ShowLoginScreen(
+    viewModel: OverviewViewModel,
+    navController: NavHostController,
+    afterLoginScreen: String
+) {
     var showDialog by remember { mutableStateOf(false) }
 
     LoginScreen(
         onLoginClicked = { mail, password ->
             val loginCheck = viewModel.login(mail, password)
             if (loginCheck) {
-                navController.navigate(DicketScreen.MyProfile.name)
+                navController.navigate(afterLoginScreen)
             } else {
                 showDialog = true
             }

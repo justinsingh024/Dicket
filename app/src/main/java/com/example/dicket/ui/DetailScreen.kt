@@ -1,5 +1,8 @@
 package com.example.dicket.ui
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +25,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +38,8 @@ import com.example.dicket.R
 import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.Location
+import java.io.File
+import java.io.FileInputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -44,15 +52,33 @@ fun DetailScreen(
     onBuyPressed: (Event) -> Unit
 ) {
     Column {
-        Image(
-            painter = painterResource(id = R.drawable.example_party),
-            contentDescription = "Image",
-            contentScale = ContentScale.Crop,
-            modifier = modifier
-                .fillMaxWidth()
-                .weight(2f),
+        val defaultBitmap = painterResource(R.drawable.example_party)
+        val bitmap: ImageBitmap? =
+            loadImageFromInternalStorage(LocalContext.current, event.image)?.asImageBitmap()
 
-            )
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap,
+                contentDescription = "Image",
+                contentScale = ContentScale.Crop,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(2f),
+
+                )
+        } else {
+            Image(
+                painter = defaultBitmap,
+                contentDescription = "Image",
+                contentScale = ContentScale.Crop,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .weight(2f),
+
+                )
+        }
+
+
         Column(
             modifier = modifier
                 .padding(12.dp)
@@ -97,6 +123,22 @@ fun DetailScreen(
             Text(text = "Order Ticket", fontSize = 18.sp)
         }
     }
+}
+
+private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
+    try {
+        val eventImagesDir = File(context.filesDir, "event_images")
+        val imageFile = File(eventImagesDir, fileName)
+
+        if (imageFile.exists()) {
+            FileInputStream(imageFile).use { inputStream ->
+                return BitmapFactory.decodeStream(inputStream)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
 }
 
 @Composable

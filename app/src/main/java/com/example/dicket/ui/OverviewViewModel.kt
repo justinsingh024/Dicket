@@ -95,4 +95,8 @@ class OverviewViewModel @Inject constructor(
     fun getLocationByEvent(event: Event): Location? {
         return locationRepository.getLocationById(event.location)
     }
+
+    fun buyTicket(user: User, event: Event) {
+        eventRepository.buyTicket(user, event)
+    }
 }

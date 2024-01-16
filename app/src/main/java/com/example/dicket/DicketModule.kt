@@ -8,6 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.dicket.data.dao.CategoryDao
 import com.example.dicket.data.dao.EventDao
 import com.example.dicket.data.dao.LocationDao
+import com.example.dicket.data.dao.TicketDao
 import com.example.dicket.data.dao.UserDao
 import com.example.dicket.data.database.DicketDatabase
 import com.example.dicket.data.repository.CategoryRepository
@@ -49,8 +50,8 @@ object DicketModule {
 
     @Singleton
     @Provides
-    fun getEventRepository(dao: EventDao): EventRepository {
-        return EventRepository(dao)
+    fun getEventRepository(eventDao: EventDao, ticketDao: TicketDao): EventRepository {
+        return EventRepository(eventDao, ticketDao)
     }
 
     @Singleton
@@ -93,6 +94,12 @@ object DicketModule {
     @Provides
     fun getUserDao(database: DicketDatabase): UserDao {
         return database.userDao()
+    }
+
+    @Singleton
+    @Provides
+    fun getTicketDao(database: DicketDatabase): TicketDao {
+        return database.ticketDao()
     }
 
 

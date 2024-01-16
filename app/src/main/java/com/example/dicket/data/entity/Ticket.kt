@@ -32,5 +32,5 @@ data class Ticket(
     val isCheckedIn: Boolean,
     val eventID: Int,
     val userID: Int,
-    val scannedByUserID: Int
+    val scannedByUserID: Int?
 )

@@ -293,7 +293,7 @@ class DatabaseInitializer {
                 LocalTime.of(18, 0),
                 LocalDate.of(2024, 5, 1),
                 4,  // Hier festlegen, welche Location-ID zugeordnet wird
-                "karl_kinski.jpg",
+                "karl_kinski.png",
                 2,  // Hier festlegen, welche Categorie-ID zugeordnet wird
                 13.50,
                 System.currentTimeMillis() - 86400000,

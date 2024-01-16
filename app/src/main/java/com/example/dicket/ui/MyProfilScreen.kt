@@ -1,5 +1,8 @@
 package com.example.dicket.ui
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -27,7 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +43,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.User
+import java.io.File
+import java.io.FileInputStream
 
 @Composable
 fun MyProfilScreen(
@@ -49,7 +57,6 @@ fun MyProfilScreen(
     onLoginPressed: () -> Unit,
     onLogoutPressed: () -> Unit,
 ) {
-    //val uiState by viewModel.uiState.collectAsState()
     Column(
         modifier = modifier
             .padding(6.dp)
@@ -207,15 +214,33 @@ fun EventsListingScreen(
                         .padding(8.dp)
                         .fillMaxWidth()
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.example_party),
-                        contentDescription = "Party",
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier
-                            .weight(2f)
-                            .clip(RoundedCornerShape(16.dp)) // Add this line to make the corners rounded
-                    )
+                    val defaultBitmap = painterResource(R.drawable.example_party)
+                    val bitmap: ImageBitmap? = loadImageFromInternalStorage(
+                        LocalContext.current,
+                        event.image
+                    )?.asImageBitmap()
+                    if (bitmap != null) {
+                        Image(
+                            bitmap = bitmap,
+                            contentDescription = "Party",
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            modifier = modifier
+                                .weight(2f)
+                                .clip(RoundedCornerShape(16.dp))
+                        )
+                    } else {
+                        Image(
+                            painter = defaultBitmap,
+                            contentDescription = "Party",
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            modifier = modifier
+                                .weight(2f)
+                                .clip(RoundedCornerShape(16.dp))
+                        )
+                    }
+
                     Column(
                         modifier = modifier
                             .weight(6f)
@@ -234,6 +259,22 @@ fun EventsListingScreen(
             Spacer(modifier = modifier.height(4.dp))
         }
     }
+}
+
+private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
+    try {
+        val eventImagesDir = File(context.filesDir, "event_images")
+        val imageFile = File(eventImagesDir, fileName)
+
+        if (imageFile.exists()) {
+            FileInputStream(imageFile).use { inputStream ->
+                return BitmapFactory.decodeStream(inputStream)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
 }
 
 /*

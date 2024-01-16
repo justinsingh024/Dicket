@@ -1,5 +1,8 @@
 package com.example.dicket.ui
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,6 +39,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.R
 import com.example.dicket.data.entity.Event
+import java.io.File
+import java.io.FileInputStream
 
 @Composable
 fun OverviewScreen(
@@ -75,15 +83,33 @@ fun OverviewScreen(
                         .clip(RoundedCornerShape(16.dp)) // Adjust the corner radius as needed
                         .shadow(10.dp) // Adjust the shadow elevation as needed
                 ) {
-                    Image(
-                        painter = painterResource(id = getResourceIdByName(event.image)),
-                        contentDescription = "Party",
-                        alignment = Alignment.Center,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .size(190.dp) // Adjust the size as needed
-                    )
+                    val defaultBitmap = painterResource(R.drawable.example_party)
+                    val bitmap: ImageBitmap? = loadImageFromInternalStorage(
+                        LocalContext.current,
+                        event.image
+                    )?.asImageBitmap()
+                    if (bitmap != null) {
+                        Image(
+                            bitmap = bitmap,
+                            contentDescription = "Party",
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .size(190.dp) // Adjust the size as needed
+                        )
+                    } else {
+                        Image(
+                            painter = defaultBitmap,
+                            contentDescription = "Party",
+                            alignment = Alignment.Center,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .size(190.dp) // Adjust the size as needed
+                        )
+                    }
+
                 }
                 Row(
                     modifier = modifier,
@@ -112,9 +138,20 @@ fun OverviewScreen(
     }
 }
 
-private fun getResourceIdByName(fileName: String): Int {
-    val resourceIdName = fileName.substringBeforeLast(".")
-    return R.drawable::class.java.getField(resourceIdName).getInt(null)
+private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
+    try {
+        val eventImagesDir = File(context.filesDir, "event_images")
+        val imageFile = File(eventImagesDir, fileName)
+
+        if (imageFile.exists()) {
+            FileInputStream(imageFile).use { inputStream ->
+                return BitmapFactory.decodeStream(inputStream)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
 }
 
 @Preview

@@ -35,4 +35,6 @@ interface EventDao {
     )
     fun getEventsByUserTickets(userId: Int): List<Event>
 
+    @Query("UPDATE event SET maxQuantityTicket = maxQuantityTicket - 1 WHERE eventID = :eventId")
+    fun decrementMaxQuantityTicket(eventId: Int)
 }
