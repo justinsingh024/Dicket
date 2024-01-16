@@ -76,9 +76,12 @@ fun MyProfilScreen(
 
         if (isLoggedIn) {
             PaymentScreen(modifier = modifier.weight(2f))
+            Spacer(modifier = modifier.height(16.dp))
             Text(
                 text = if (myEvents.isNullOrEmpty()) "You have no Events" else "Your Events",
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
 
 
@@ -87,7 +90,9 @@ fun MyProfilScreen(
             Spacer(modifier = modifier.height(16.dp))
             Text(
                 text = if (myTickets.isNullOrEmpty()) "You have no Tickets" else "Your Tickets",
-                color = Color.White
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = modifier.height(8.dp))
             EventsListingScreen(modifier = modifier.weight(3f), myTickets, viewModel)
@@ -123,8 +128,8 @@ fun LoginInfoScreen(
 
         if (isLoggedIn) {
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF_F5_49_10)),
-                modifier = modifier.weight(1f), onClick = onLogoutPressed
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB23B3B)),
+                modifier = modifier.weight(2f), onClick = onLogoutPressed
             ) {
                 Text(
                     text = "Logout",
@@ -149,7 +154,9 @@ fun PaymentScreen(
     Column(modifier = modifier) {
         Text(
             text = "Payment Method",
-            color = Color.White
+            color = Color.White,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
         Column(
             modifier = modifier.padding(top = 8.dp),
