@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -22,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -65,13 +69,19 @@ fun MyProfilScreen(
 
         if (isLoggedIn) {
             PaymentScreen(modifier = modifier.weight(2f))
-            Text(text = if (myEvents.isNullOrEmpty()) "You have no Events" else "Your Events")
+            Text(
+                text = if (myEvents.isNullOrEmpty()) "You have no Events" else "Your Events",
+                color = Color.White
+            )
 
 
             Spacer(modifier = modifier.height(8.dp))
             EventsListingScreen(modifier = modifier.weight(3f), myEvents, viewModel)
             Spacer(modifier = modifier.height(16.dp))
-            Text(text = if (myTickets.isNullOrEmpty()) "You have no Tickets" else "Your Tickets")
+            Text(
+                text = if (myTickets.isNullOrEmpty()) "You have no Tickets" else "Your Tickets",
+                color = Color.White
+            )
             Spacer(modifier = modifier.height(8.dp))
             EventsListingScreen(modifier = modifier.weight(3f), myTickets, viewModel)
         }
@@ -94,8 +104,9 @@ fun LoginInfoScreen(
             text = "Welcome $prename $surname",
             modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            fontStyle = FontStyle.Italic,
-            fontSize = 18.sp
+            fontStyle = FontStyle.Normal,
+            fontSize = 20.sp,
+            color = Color.White
         )
     }
 
@@ -105,10 +116,13 @@ fun LoginInfoScreen(
 
         if (isLoggedIn) {
             Button(
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF_F5_49_10)),
                 modifier = modifier.weight(1f), onClick = onLogoutPressed
             ) {
-                Text(text = "Logout")
+                Text(
+                    text = "Logout",
+                    fontSize = 18.sp
+                )
             }
         } else {
             Button(modifier = modifier.weight(1f), onClick = onLoginPressed) {
@@ -126,14 +140,18 @@ fun PaymentScreen(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        Text(text = "Payment Method")
+        Text(
+            text = "Payment Method",
+            color = Color.White
+        )
         Column(
             modifier = modifier.padding(top = 8.dp),
         ) {
             Card(
                 modifier = modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                colors = CardDefaults.cardColors(containerColor = Color(31, 41, 61))
             ) {
                 Row(
                     modifier = modifier
@@ -141,13 +159,17 @@ fun PaymentScreen(
                         .fillMaxWidth()
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Email,
+                        imageVector = Icons.Default.ShoppingCart,
                         contentDescription = null,
-                        modifier = modifier.weight(1f)
+                        modifier = modifier
+                            .weight(1f)
+                            .size(100.dp)
+                            .padding(end = 22.dp),
+                        tint = Color(99, 115, 148)
                     )
                     //Spacer(modifier = modifier.width(16.dp))
-                    Text(text = "4544 **** **** 5615", modifier.weight(5f))
-                    Text(text = "06/25", modifier.weight(1f))
+                    Text(text = "4544 **** **** 5615", modifier.weight(5f), color = Color.White)
+                    Text(text = "06/25", modifier.weight(1f), color = Color(99, 115, 148))
 
                 }
 
@@ -171,10 +193,14 @@ fun EventsListingScreen(
             Card(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(100.dp),
+                    .height(100.dp)
+                    .clip(RoundedCornerShape(16.dp)) // Adjust the corner radius as needed
+                    .shadow(10.dp) // Adjust the shadow elevation as needed
+                    .padding(2.dp),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp
                 ),
+                colors = CardDefaults.cardColors(containerColor = Color(31, 41, 61))
             ) {
                 Row(
                     modifier = modifier
@@ -186,7 +212,9 @@ fun EventsListingScreen(
                         contentDescription = "Party",
                         alignment = Alignment.Center,
                         contentScale = ContentScale.Crop,
-                        modifier = modifier.weight(3f)
+                        modifier = modifier
+                            .weight(2f)
+                            .clip(RoundedCornerShape(16.dp)) // Add this line to make the corners rounded
                     )
                     Column(
                         modifier = modifier
@@ -194,9 +222,10 @@ fun EventsListingScreen(
                             .align(Alignment.CenterVertically)
                             .padding(8.dp)
                     ) {
-                        Text(text = event.title)
-                        Text(text = "${event.date} ${event.entry}")
-                        viewModel.getLocationByEvent(event)?.let { Text(text = it.locationName) }
+                        Text(text = event.title, color = Color.White)
+                        Text(text = "${event.date} ${event.entry}", color = Color.White)
+                        viewModel.getLocationByEvent(event)
+                            ?.let { Text(text = it.locationName, color = Color(99, 115, 148)) }
                     }
 
                 }

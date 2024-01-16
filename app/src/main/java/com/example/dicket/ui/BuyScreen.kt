@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.Location
 import java.time.LocalDate
@@ -51,7 +52,7 @@ fun BuyScreen(modifier: Modifier = Modifier, event: Event, location: Location) {
             shape = RoundedCornerShape(8.dp)
 
         ) {
-            Text(text = "Bezahlen: ${event.price}€")
+            Text(text = "Bezahlen: ${event.price}€", fontSize = 18.sp)
         }
     }
 }

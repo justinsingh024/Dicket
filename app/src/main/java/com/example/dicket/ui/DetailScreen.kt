@@ -94,7 +94,7 @@ fun DetailScreen(
             ), // Change the color as needed
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text(text = "Order Ticket")
+            Text(text = "Order Ticket", fontSize = 18.sp)
         }
     }
 }

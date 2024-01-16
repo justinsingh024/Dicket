@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -179,7 +180,7 @@ fun DicketApp(
                 )
             }
             composable(route = DicketScreen.MyProfile.name) {
-                if(uiState.isLoggedIn){
+                if (uiState.isLoggedIn) {
                     MyProfilScreen(
                         currentUser = uiState.currentUser,
                         isLoggedIn = uiState.isLoggedIn,
@@ -193,7 +194,7 @@ fun DicketApp(
                             navController.navigate(DicketScreen.MyProfile.name)
                         }
                     )
-                }else {
+                } else {
                     ShowLoginScreen(viewModel, navController)
                 }
 
@@ -206,7 +207,7 @@ fun DicketApp(
 }
 
 @Composable
-fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostController){
+fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostController) {
     var showDialog by remember { mutableStateOf(false) }
 
     LoginScreen(
@@ -226,6 +227,7 @@ fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostControll
 
     if (showDialog) {
         AlertDialog(
+            containerColor = Color(0xFF1F293D),
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
@@ -233,19 +235,28 @@ fun ShowLoginScreen(viewModel: OverviewViewModel, navController: NavHostControll
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color.White
                 )
             },
             text = {
                 Text(
                     "Incorrect e-mail or password",
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = Color.White
                 )
             },
             confirmButton = {
                 Button(
                     onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(
+                            255,
+                            128,
+                            54
+                        )
+                    ), // Change the color as needed
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp)
