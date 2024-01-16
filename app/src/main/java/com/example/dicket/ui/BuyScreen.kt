@@ -70,11 +70,12 @@ fun BuyScreen(
             shape = RoundedCornerShape(8.dp)
 
         ) {
-            Text(text = "Bezahlen: ${event.price}€", fontSize = 18.sp)
+            Text(text = "Pay: ${event.price}€", fontSize = 18.sp)
         }
 
         if (showDialog) {
             AlertDialog(
+                containerColor = Color(31, 41, 61),
                 onDismissRequest = {
                     // Schließe das AlertDialog
                     showDialog = false
@@ -85,7 +86,8 @@ fun BuyScreen(
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = Color.White
                     )
                 },
                 text = {
@@ -93,7 +95,8 @@ fun BuyScreen(
                         text = "Are you sure you want to proceed with " +
                                 "the purchase of ${event.title} for ${event.price}€?",
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = Color.White
                     )
                 },
                 confirmButton = {
@@ -106,7 +109,14 @@ fun BuyScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
+                            .padding(top = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(
+                                255,
+                                128,
+                                54
+                            )
+                        ), // Change the color as needed
                     ) {
                         Text("Confirm")
                     }
@@ -119,7 +129,8 @@ fun BuyScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
+                            .padding(top = 8.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB23B3B)),
                     ) {
                         Text("Cancel")
                     }

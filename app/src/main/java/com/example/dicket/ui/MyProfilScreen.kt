@@ -182,7 +182,7 @@ fun PaymentScreen(
                         tint = Color(99, 115, 148)
                     )
                     //Spacer(modifier = modifier.width(16.dp))
-                    Text(text = "4544 **** **** 5615", modifier.weight(5f), color = Color.White)
+                    Text(text = "**** 5615", modifier.weight(5f), color = Color.White)
                     Text(text = "06/25", modifier.weight(1f), color = Color(99, 115, 148))
 
                 }

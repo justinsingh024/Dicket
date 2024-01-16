@@ -5,8 +5,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -111,7 +112,7 @@ fun DicketApp(
                 NavigationBarItem(
                     icon = {
                         Icon(
-                            Icons.Filled.Favorite,
+                            Icons.Filled.Home,
                             contentDescription = null,
                             tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.Overview.name } == true) {
                                 Color(0xFF242323) // Ausgewählte Farbe
@@ -142,7 +143,7 @@ fun DicketApp(
                 NavigationBarItem(
                     icon = {
                         Icon(
-                            Icons.Filled.Favorite,
+                            Icons.Filled.AccountCircle,
                             contentDescription = null,
                             tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true) {
                                 Color(0xFF242323) // Ausgewählte Farbe
