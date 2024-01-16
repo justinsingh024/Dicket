@@ -42,6 +42,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DetailScreen(
@@ -85,6 +86,7 @@ fun DetailScreen(
                 .verticalScroll(rememberScrollState())
                 .weight(4f)
         ) {
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             Text(
                 text = event.title,
                 fontSize = 30.sp,
@@ -95,10 +97,10 @@ fun DetailScreen(
             Text(text = event.description, color = Color.White)
             Spacer(modifier = modifier.height(16.dp))
             StarRating(rating = event.rating)
-            PaddedText(label = "Price:", value = "${event.price}€")
+            PaddedText(label = "Price:", value = String.format("%.2f€", event.price))
             PaddedText(label = "Location:", value = location.locationName)
             PaddedText(label = "Entry: ", value = event.entry.toString())
-            PaddedText(label = "Date: ", value = event.date.toString())
+            PaddedText(label = "Date: ", value = event.date.format(formatter))
             PaddedText(label = "Category: ", value = categorie.name)
             PaddedText(label = "Min Age: ", value = event.minAge.toString())
             PaddedText(label = "Available Tickets: ", value = event.maxQuantityTicket.toString())

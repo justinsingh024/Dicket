@@ -29,6 +29,7 @@ import com.example.dicket.data.entity.Location
 import com.example.dicket.data.entity.User
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun BuyScreen(
@@ -47,11 +48,12 @@ fun BuyScreen(
                 .verticalScroll(rememberScrollState())
                 .weight(4f)
         ) {
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             PaddedText(label = "Event:", value = event.title)
-            PaddedText(label = "Price:", value = "${event.price}€")
+            PaddedText(label = "Price:", value = String.format("%.2f€", event.price))
             PaddedText(label = "Location:", value = location.locationName)
-            PaddedText(label = "Entry: ", value = event.entry.toString())
-            PaddedText(label = "Date: ", value = event.date.toString())
+            PaddedText(label = "Entry: ", value = event.entry.toString() + " Uhr")
+            PaddedText(label = "Date: ", value = event.date.format(formatter))
             PaddedText(label = "Available Tickets: ", value = event.maxQuantityTicket.toString())
         }
         Button(
@@ -93,7 +95,7 @@ fun BuyScreen(
                 text = {
                     Text(
                         text = "Are you sure you want to proceed with " +
-                                "the purchase of ${event.title} for ${event.price}€?",
+                                "the purchase of ${event.title} for ${String.format("%.2f€", event.price)}?",
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         color = Color.White

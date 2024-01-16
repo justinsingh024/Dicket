@@ -41,6 +41,7 @@ import com.example.dicket.R
 import com.example.dicket.data.entity.Event
 import java.io.File
 import java.io.FileInputStream
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun OverviewScreen(
@@ -124,8 +125,9 @@ fun OverviewScreen(
                         modifier = Modifier.padding(6.dp)
                     )
                 }
+                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                 Text(
-                    text = " " + event.date.toString(),
+                    text = " " + event.date.format(formatter),
                     fontWeight = FontWeight.Light,
                     fontSize = 12.sp,
                     color = Color(0xFFFFFFFF),

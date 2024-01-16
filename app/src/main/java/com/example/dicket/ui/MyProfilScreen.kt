@@ -45,6 +45,7 @@ import com.example.dicket.data.entity.Event
 import com.example.dicket.data.entity.User
 import java.io.File
 import java.io.FileInputStream
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun MyProfilScreen(
@@ -254,8 +255,9 @@ fun EventsListingScreen(
                             .align(Alignment.CenterVertically)
                             .padding(8.dp)
                     ) {
+                        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                         Text(text = event.title, color = Color.White)
-                        Text(text = "${event.date} ${event.entry}", color = Color.White)
+                        Text(text = "${event.date.format(formatter)} ${event.entry} Uhr", color = Color.White)
                         viewModel.getLocationByEvent(event)
                             ?.let { Text(text = it.locationName, color = Color(99, 115, 148)) }
                     }
