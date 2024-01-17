@@ -1,12 +1,6 @@
 package com.example.dicket.ui
 
-import android.graphics.drawable.AnimatedImageDrawable
 import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dicket.data.EventUiState
@@ -19,18 +13,9 @@ import com.example.dicket.data.repository.EventRepository
 import com.example.dicket.data.repository.LocationRepository
 import com.example.dicket.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -38,10 +23,11 @@ import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 enum class SortBy(val text: String) {
-    NONE("None"),
+    NONE("Hot"),
     NAME("Name"),
     DATE("Date")
 }
+
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
     private val eventRepository: EventRepository,
@@ -78,7 +64,7 @@ class OverviewViewModel @Inject constructor(
         }
     }
 
-    fun onSearchTextChange(text: String){
+    fun onSearchTextChange(text: String) {
         _searchText.value = text
 
     }
@@ -91,24 +77,26 @@ class OverviewViewModel @Inject constructor(
 
     }
 
-    fun onSortBy(sortBy: SortBy){
+    fun onSortBy(sortBy: SortBy) {
         _displayEvents.value = eventRepository.getAllEvents()
         _searchText.value = ""
-       when(sortBy) {
-           SortBy.NONE -> {
-               _sortedby.value = SortBy.NONE
-               return
-           }
-           SortBy.NAME -> {
-               _sortedby.value = SortBy.NAME
-               _displayEvents.value = _displayEvents.value.sortedBy { it.title }
-               }
-           SortBy.DATE -> {
-               _sortedby.value = SortBy.DATE
-               _displayEvents.value = _displayEvents.value.sortedBy { it.date }
-           }
+        when (sortBy) {
+            SortBy.NONE -> {
+                _sortedby.value = SortBy.NONE
+                return
+            }
 
-       }
+            SortBy.NAME -> {
+                _sortedby.value = SortBy.NAME
+                _displayEvents.value = _displayEvents.value.sortedBy { it.title }
+            }
+
+            SortBy.DATE -> {
+                _sortedby.value = SortBy.DATE
+                _displayEvents.value = _displayEvents.value.sortedBy { it.date }
+            }
+
+        }
 
     }
 
@@ -119,7 +107,7 @@ class OverviewViewModel @Inject constructor(
         minAge: String,
         entry: String,
         date: String,
-        location:String,
+        location: String,
         image: String,
         category: String,
         latestCancelingDate: String,
@@ -150,23 +138,23 @@ class OverviewViewModel @Inject constructor(
         }
     }
 
-        fun insertCheckIn(event: Event) {
-            viewModelScope.launch {
-                eventRepository.insertEvent(event)
-                _displayEvents.emit(eventRepository.getAllEvents())
-            }
-        }
-
-
-        /*
-    fun login(mail: String, password: String) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                isLoggedIn = true
-            )
+    fun insertCheckIn(event: Event) {
+        viewModelScope.launch {
+            eventRepository.insertEvent(event)
+            _displayEvents.emit(eventRepository.getAllEvents())
         }
     }
-    */
+
+
+    /*
+fun login(mail: String, password: String) {
+    _uiState.update { currentState ->
+        currentState.copy(
+            isLoggedIn = true
+        )
+    }
+}
+*/
 
     fun login(mail: String, password: String): Boolean {
         val user: User = userRepository.getUserByMailAndPassword(mail, password) ?: return false

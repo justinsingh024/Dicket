@@ -1,7 +1,6 @@
 package com.example.dicket
 
 import android.util.Log
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -139,14 +138,13 @@ fun DicketApp(
                     )
                 )
 
-                // Platzhalter für das mittlere Element
-
+                // Mittleres Element
                 NavigationBarItem(
                     icon = {
                         Icon(
                             Icons.Filled.Add,
                             contentDescription = null,
-                            tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true) {
+                            tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.NewEvent.name } == true) {
                                 Color(0xFF242323) // Ausgewählte Farbe
                             } else {
                                 Color(255, 128, 54) // Nicht ausgewählte Farbe
