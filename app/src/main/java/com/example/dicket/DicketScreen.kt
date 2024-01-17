@@ -1,6 +1,7 @@
 package com.example.dicket
 
 import android.util.Log
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -138,7 +139,8 @@ fun DicketApp(
                     )
                 )
 
-                // Mittleres Element
+                // Platzhalter für das mittlere Element
+
                 NavigationBarItem(
                     icon = {
                         Icon(
@@ -258,7 +260,16 @@ fun DicketApp(
                 ShowLoginScreen(viewModel, navController, DicketScreen.MyProfile.name)
             }
             composable(route = DicketScreen.NewEvent.name) {
-                NewEventScreen(onCreateEvent = viewModel::createEvent)
+                if (uiState.isLoggedIn) {
+
+                    NewEventScreen(
+                        onCreateEvent = viewModel::createEvent
+                    ) {
+                        navController.navigate(DicketScreen.MyProfile.name)
+                    }
+                } else {
+                    ShowLoginScreen(viewModel, navController, DicketScreen.NewEvent.name)
+                }
             }
         }
     }

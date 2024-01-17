@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.reflect.KFunction11
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlin.reflect.KFunction12
 
@@ -47,7 +49,8 @@ import kotlin.reflect.KFunction12
 fun NewEventScreen(
     viewModel: OverviewViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
-    onCreateEvent: KFunction12<String, String, String, String, String, String, String, String, String, String, String, String, Unit>
+    onCreateEvent: KFunction11<String, String, String, String, String, String, String, String, String, String, String, Unit>,
+    onEventCreated: () -> Unit
 
 ) {
     var title by remember { mutableStateOf("") }
@@ -61,9 +64,8 @@ fun NewEventScreen(
     var category by remember { mutableStateOf("") }
     var latestCancelingDate by remember { mutableStateOf("") }
     var maxQuantityTicket by remember { mutableStateOf("") }
-    var organizer by remember { mutableStateOf("") }
-
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scrollState = rememberScrollState()
     var expandedCategory by remember { mutableStateOf(false) }
     var expandedLocation by remember { mutableStateOf(false) }
     val categories = viewModel.getAllCategories()
@@ -73,7 +75,7 @@ fun NewEventScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(state = ScrollState(0), enabled = true),
+            .verticalScroll(state = scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -331,25 +333,6 @@ fun NewEventScreen(
                 unfocusedBorderColor = Color(0xFFC4D3F0),
             ),
         )
-        TextField(
-            value = organizer,
-            onValueChange = { organizer = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            label = { Text("Organizer", color = Color(0xFFC4D3F0)) },
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color(0xFFC4D3F0),
-                unfocusedTextColor = Color(0xFFC4D3F0),
-                focusedContainerColor = Color(0xFF1F293D),
-                unfocusedContainerColor = Color(0xFF1F293D),
-                disabledContainerColor = Color(0xFF1F293D),
-                cursorColor = Color(0xFFC4D3F0),
-                focusedBorderColor = Color(0xFFC4D3F0),
-                unfocusedBorderColor = Color(0xFFC4D3F0),
-            ),
-        )
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(
@@ -375,8 +358,8 @@ fun NewEventScreen(
                     category,
                     latestCancelingDate,
                     maxQuantityTicket,
-                    organizer
                 )
+                onEventCreated()
             }
         ) {
             Text(text = "Save", fontSize = 18.sp) // Adjust the font size as needed)

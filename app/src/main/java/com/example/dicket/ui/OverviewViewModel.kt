@@ -112,7 +112,6 @@ class OverviewViewModel @Inject constructor(
         category: String,
         latestCancelingDate: String,
         maxQuantityTicket: String,
-        organizer: String,
     ) {
         // Definiere das Datumsformat, das dem gegebenen String entspricht
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
@@ -131,10 +130,11 @@ class OverviewViewModel @Inject constructor(
             price = price.toDouble(),
             latestCancelingDate = System.currentTimeMillis() - 86400000,
             maxQuantityTicket = maxQuantityTicket.toInt(),
-            organizer = organizer.toInt()
+            organizer = uiState.value.currentUser?.userID ?: 1
         )
         viewModelScope.launch {
             eventRepository.insertEvent(event)
+            _displayEvents.value = eventRepository.getAllEvents()
         }
     }
 
