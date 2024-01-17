@@ -196,11 +196,11 @@ fun login(mail: String, password: String) {
         eventRepository.buyTicket(user, event)
     }
 
-    fun getAllCategories(): List<Category>{
+    fun getAllCategories(): List<Category> {
         return categoryRepository.getAllCategories()
     }
 
-    fun getAllLocations(): List<Location>{
+    fun getAllLocations(): List<Location> {
         return locationRepository.getAllLocations()
     }
 }

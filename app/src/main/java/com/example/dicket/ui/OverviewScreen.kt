@@ -255,8 +255,7 @@ fun SortDropdownMenu(
                 unfocusedTextColor = Color.White,
                 focusedTextColor = Color.White,
                 cursorColor = Color(0xFFC4D3F0),
-
-                ),
+            ),
             modifier = Modifier.menuAnchor()
         )
         ExposedDropdownMenu(

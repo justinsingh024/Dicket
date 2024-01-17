@@ -1,6 +1,7 @@
 package com.example.dicket.ui
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,10 +18,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -200,6 +202,8 @@ fun NewEventScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color(0xFF1F293D))
+                .heightIn(max = 80.dp)
                 .padding(bottom = 16.dp)
                 .clickable {
                     expandedLocation = !expandedLocation
@@ -210,7 +214,7 @@ fun NewEventScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                color = if (expandedLocation) Color.Blue else Color.Black
+                color = Color(0xFFC4D3F0)
             )
 
             Icon(
@@ -218,28 +222,35 @@ fun NewEventScreen(
                 contentDescription = "Dropdown Icon",
                 modifier = Modifier
                     .padding(end = 16.dp)
-                    .size(24.dp)
+                    .size(24.dp),
+                tint = Color(0xFFC4D3F0)
             )
 
             // Dropdown menu
             DropdownMenu(
                 expanded = expandedLocation,
                 onDismissRequest = { expandedLocation = false },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF1F293D))
             ) {
                 locations.forEach { locationItem ->
-                    DropdownMenuItem(text = {
-                        Text(text = locationItem.locationName)
-                    },onClick = {
-                        location = locationItem.locationID.toString()
-                        expandedLocation = false
-                    })
+                    DropdownMenuItem(
+                        modifier = Modifier.background(Color(0xFF1F293D)),
+                        text = {
+                            Text(text = locationItem.locationName, color = Color(0xFFC4D3F0))
+                        }, onClick = {
+                            location = locationItem.locationID.toString()
+                            expandedLocation = false
+                        })
                 }
             }
         }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color(0xFF1F293D))
+                .heightIn(max = 70.dp)
                 .padding(bottom = 16.dp)
                 .clickable {
                     expandedCategory = !expandedCategory
@@ -250,7 +261,7 @@ fun NewEventScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                color = if (expandedCategory) Color.Blue else Color.Black
+                color = Color(0xFFC4D3F0)
             )
 
             Icon(
@@ -258,22 +269,27 @@ fun NewEventScreen(
                 contentDescription = "Dropdown Icon",
                 modifier = Modifier
                     .padding(end = 16.dp)
-                    .size(24.dp)
+                    .size(24.dp),
+                tint = Color(0xFFC4D3F0)
             )
 
             // Dropdown menu
             DropdownMenu(
                 expanded = expandedCategory,
                 onDismissRequest = { expandedCategory = false },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF1F293D))
             ) {
                 categories.forEach { categoryItem ->
-                    DropdownMenuItem(text = {
-                        Text(text = categoryItem.name)
-                    },onClick = {
-                        category = categoryItem.categoryID.toString()
-                        expandedCategory = false
-                    })
+                    DropdownMenuItem(
+                        modifier = Modifier.background(Color(0xFF1F293D)),
+                        text = {
+                            Text(text = categoryItem.name, color = Color(0xFFC4D3F0))
+                        }, onClick = {
+                            category = categoryItem.categoryID.toString()
+                            expandedCategory = false
+                        })
                 }
             }
         }
