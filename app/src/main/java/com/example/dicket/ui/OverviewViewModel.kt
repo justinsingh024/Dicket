@@ -124,9 +124,9 @@ class OverviewViewModel @Inject constructor(
             minAge = minAge.toInt(),
             entry = LocalTime.of(entry.toInt(), 0),
             date = LocalDate.parse(date, formatter),
-            location = 1,  // Hier festlegen, welche Location-ID zugeordnet wird
+            location = location.toInt(),  // Hier festlegen, welche Location-ID zugeordnet wird
             image = "bild_1.jpg",
-            category = 1,  // Hier festlegen, welche Categorie-ID zugeordnet wird
+            category = category.toInt(),  // Hier festlegen, welche Categorie-ID zugeordnet wird
             price = price.toDouble(),
             latestCancelingDate = System.currentTimeMillis() - 86400000,
             maxQuantityTicket = maxQuantityTicket.toInt(),

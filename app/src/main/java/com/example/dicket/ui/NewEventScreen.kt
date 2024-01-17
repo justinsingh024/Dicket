@@ -1,6 +1,5 @@
 package com.example.dicket.ui
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.reflect.KFunction11
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlin.reflect.KFunction12
+import com.example.dicket.data.entity.Category
+import com.example.dicket.data.entity.Location
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -70,6 +70,9 @@ fun NewEventScreen(
     var expandedLocation by remember { mutableStateOf(false) }
     val categories = viewModel.getAllCategories()
     val locations = viewModel.getAllLocations()
+
+    var selectedCategory: Category
+    var selectedLocation: Location
 
     Column(
         modifier = Modifier
@@ -212,7 +215,7 @@ fun NewEventScreen(
                 }
         ) {
             Text(
-                text = if (location.isEmpty()) "Location" else location,
+                text = if (location.isEmpty()) "Location" else locations.find { it.locationID == location.toInt() }?.locationName ?: "Unknown Location",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -237,14 +240,15 @@ fun NewEventScreen(
                     .background(Color(0xFF1F293D))
             ) {
                 locations.forEach { locationItem ->
+                    selectedLocation = locationItem
                     DropdownMenuItem(
                         modifier = Modifier.background(Color(0xFF1F293D)),
                         text = {
-                            Text(text = locationItem.locationName, color = Color(0xFFC4D3F0))
-                        }, onClick = {
-                            location = locationItem.locationID.toString()
-                            expandedLocation = false
-                        })
+                        Text(text = locationItem.locationName, color = Color(0xFFC4D3F0))
+                    },onClick = {
+                        location = locationItem.locationID.toString()
+                        expandedLocation = false
+                    })
                 }
             }
         }
@@ -259,7 +263,7 @@ fun NewEventScreen(
                 }
         ) {
             Text(
-                text = if (category.isEmpty()) "Category" else category,
+                text = if (category.isEmpty()) "Category" else categories.find { it.categoryID == category.toInt() }?.name ?: "Unknown Category",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -287,11 +291,11 @@ fun NewEventScreen(
                     DropdownMenuItem(
                         modifier = Modifier.background(Color(0xFF1F293D)),
                         text = {
-                            Text(text = categoryItem.name, color = Color(0xFFC4D3F0))
-                        }, onClick = {
-                            category = categoryItem.categoryID.toString()
-                            expandedCategory = false
-                        })
+                        Text(text = categoryItem.name, color = Color(0xFFC4D3F0))
+                    },onClick = {
+                        category = categoryItem.categoryID.toString()
+                        expandedCategory = false
+                    })
                 }
             }
         }
