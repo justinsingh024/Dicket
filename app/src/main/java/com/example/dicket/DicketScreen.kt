@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.AlertDialog
@@ -43,6 +44,7 @@ import com.example.dicket.ui.BuyScreen
 import com.example.dicket.ui.DetailScreen
 import com.example.dicket.ui.LoginScreen
 import com.example.dicket.ui.MyProfilScreen
+import com.example.dicket.ui.NewEventScreen
 import com.example.dicket.ui.OverviewScreen
 import com.example.dicket.ui.OverviewViewModel
 
@@ -54,6 +56,7 @@ enum class DicketScreen {
     Buy,
     MyProfile,
     Login,
+    NewEvent,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -137,8 +140,33 @@ fun DicketApp(
                 )
 
                 // Platzhalter für das mittlere Element
-                Spacer(modifier = Modifier.weight(1f))
 
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            Icons.Filled.Add,
+                            contentDescription = null,
+                            tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true) {
+                                Color(0xFF242323) // Ausgewählte Farbe
+                            } else {
+                                Color(255, 128, 54) // Nicht ausgewählte Farbe
+                            }
+                        )
+                    },
+                    label = { Text(DicketScreen.NewEvent.name, color = Color(255, 128, 54)) },
+                    selected = currentDestination?.hierarchy?.any { it.route == DicketScreen.NewEvent.name } == true,
+                    onClick = {
+                        navController.navigate(DicketScreen.NewEvent.name) {
+                        }
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color(
+                            255,
+                            128,
+                            54
+                        )
+                    )
+                )
                 // Rechtes Element
                 NavigationBarItem(
                     icon = {
@@ -230,6 +258,9 @@ fun DicketApp(
             }
             composable(route = DicketScreen.Login.name) {
                 ShowLoginScreen(viewModel, navController, DicketScreen.MyProfile.name)
+            }
+            composable(route = DicketScreen.NewEvent.name) {
+                NewEventScreen(onCreateEvent = viewModel::createEvent)
             }
         }
     }

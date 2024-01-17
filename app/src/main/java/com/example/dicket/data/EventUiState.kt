@@ -12,5 +12,7 @@ data class EventUiState(
     val clickedEventCategory: Category? = null,
     val clickedEventLocation: Location? = null,
     val currentUser: User? = null,
+    val searchText: String = "",
+    val isSearching: Boolean = false,
     var loginFailed: Boolean = false,
 )
