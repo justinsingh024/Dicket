@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -39,10 +39,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.reflect.KFunction11
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Location
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import kotlin.reflect.KFunction11
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -215,7 +217,8 @@ fun NewEventScreen(
                 }
         ) {
             Text(
-                text = if (location.isEmpty()) "Location" else locations.find { it.locationID == location.toInt() }?.locationName ?: "Unknown Location",
+                text = if (location.isEmpty()) "Location" else locations.find { it.locationID == location.toInt() }?.locationName
+                    ?: "Unknown Location",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -244,11 +247,11 @@ fun NewEventScreen(
                     DropdownMenuItem(
                         modifier = Modifier.background(Color(0xFF1F293D)),
                         text = {
-                        Text(text = locationItem.locationName, color = Color(0xFFC4D3F0))
-                    },onClick = {
-                        location = locationItem.locationID.toString()
-                        expandedLocation = false
-                    })
+                            Text(text = locationItem.locationName, color = Color(0xFFC4D3F0))
+                        }, onClick = {
+                            location = locationItem.locationID.toString()
+                            expandedLocation = false
+                        })
                 }
             }
         }
@@ -263,7 +266,8 @@ fun NewEventScreen(
                 }
         ) {
             Text(
-                text = if (category.isEmpty()) "Category" else categories.find { it.categoryID == category.toInt() }?.name ?: "Unknown Category",
+                text = if (category.isEmpty()) "Category" else categories.find { it.categoryID == category.toInt() }?.name
+                    ?: "Unknown Category",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -291,11 +295,11 @@ fun NewEventScreen(
                     DropdownMenuItem(
                         modifier = Modifier.background(Color(0xFF1F293D)),
                         text = {
-                        Text(text = categoryItem.name, color = Color(0xFFC4D3F0))
-                    },onClick = {
-                        category = categoryItem.categoryID.toString()
-                        expandedCategory = false
-                    })
+                            Text(text = categoryItem.name, color = Color(0xFFC4D3F0))
+                        }, onClick = {
+                            category = categoryItem.categoryID.toString()
+                            expandedCategory = false
+                        })
                 }
             }
         }

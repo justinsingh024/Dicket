@@ -122,7 +122,8 @@ class OverviewViewModel @Inject constructor(
             rating = 4.0f,
             description = description,
             minAge = minAge.toInt(),
-            entry = LocalTime.of(entry.toInt(), 0),
+            entry = convertStringToTime(entry),
+            //entry = LocalTime.of(entry.toInt(), 0),
             date = LocalDate.parse(date, formatter),
             location = location.toInt(),  // Hier festlegen, welche Location-ID zugeordnet wird
             image = "bild_1.jpg",
@@ -202,5 +203,10 @@ fun login(mail: String, password: String) {
 
     fun getAllLocations(): List<Location> {
         return locationRepository.getAllLocations()
+    }
+
+    fun convertStringToTime(timeString: String): LocalTime {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return LocalTime.parse(timeString, formatter)
     }
 }
