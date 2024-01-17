@@ -1,16 +1,24 @@
 package com.example.dicket.ui
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -29,11 +37,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlin.reflect.KFunction12
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NewEventScreen(
+    viewModel: OverviewViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
     onCreateEvent: KFunction12<String, String, String, String, String, String, String, String, String, String, String, String, Unit>
 
@@ -52,6 +62,10 @@ fun NewEventScreen(
     var organizer by remember { mutableStateOf("") }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+    var expandedCategory by remember { mutableStateOf(false) }
+    var expandedLocation by remember { mutableStateOf(false) }
+    val categories = viewModel.getAllCategories()
+    val locations = viewModel.getAllLocations()
 
     Column(
         modifier = Modifier
@@ -183,44 +197,86 @@ fun NewEventScreen(
                 unfocusedBorderColor = Color(0xFFC4D3F0),
             ),
         )
-        TextField(
-            value = location,
-            onValueChange = { location = it },
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            label = { Text("Location", color = Color(0xFFC4D3F0)) },
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color(0xFFC4D3F0),
-                unfocusedTextColor = Color(0xFFC4D3F0),
-                focusedContainerColor = Color(0xFF1F293D),
-                unfocusedContainerColor = Color(0xFF1F293D),
-                disabledContainerColor = Color(0xFF1F293D),
-                cursorColor = Color(0xFFC4D3F0),
-                focusedBorderColor = Color(0xFFC4D3F0),
-                unfocusedBorderColor = Color(0xFFC4D3F0),
-            ),
-        )
-        TextField(
-            value = category,
-            onValueChange = { category = it },
+                .padding(bottom = 16.dp)
+                .clickable {
+                    expandedLocation = !expandedLocation
+                }
+        ) {
+            Text(
+                text = if (location.isEmpty()) "Location" else location,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                color = if (expandedLocation) Color.Blue else Color.Black
+            )
+
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Dropdown Icon",
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(24.dp)
+            )
+
+            // Dropdown menu
+            DropdownMenu(
+                expanded = expandedLocation,
+                onDismissRequest = { expandedLocation = false },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                locations.forEach { locationItem ->
+                    DropdownMenuItem(text = {
+                        Text(text = locationItem.locationName)
+                    },onClick = {
+                        location = locationItem.locationID.toString()
+                        expandedLocation = false
+                    })
+                }
+            }
+        }
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            label = { Text("Category", color = Color(0xFFC4D3F0)) },
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color(0xFFC4D3F0),
-                unfocusedTextColor = Color(0xFFC4D3F0),
-                focusedContainerColor = Color(0xFF1F293D),
-                unfocusedContainerColor = Color(0xFF1F293D),
-                disabledContainerColor = Color(0xFF1F293D),
-                cursorColor = Color(0xFFC4D3F0),
-                focusedBorderColor = Color(0xFFC4D3F0),
-                unfocusedBorderColor = Color(0xFFC4D3F0),
-            ),
-        )
+                .padding(bottom = 16.dp)
+                .clickable {
+                    expandedCategory = !expandedCategory
+                }
+        ) {
+            Text(
+                text = if (category.isEmpty()) "Category" else category,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                color = if (expandedCategory) Color.Blue else Color.Black
+            )
+
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Dropdown Icon",
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(24.dp)
+            )
+
+            // Dropdown menu
+            DropdownMenu(
+                expanded = expandedCategory,
+                onDismissRequest = { expandedCategory = false },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                categories.forEach { categoryItem ->
+                    DropdownMenuItem(text = {
+                        Text(text = categoryItem.name)
+                    },onClick = {
+                        category = categoryItem.categoryID.toString()
+                        expandedCategory = false
+                    })
+                }
+            }
+        }
         TextField(
             value = latestCancelingDate,
             onValueChange = { latestCancelingDate = it },

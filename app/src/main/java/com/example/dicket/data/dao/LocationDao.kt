@@ -12,4 +12,7 @@ interface LocationDao {
 
     @Query("SELECT * FROM Location WHERE locationID = :locationId")
     fun getLocationById(locationId: Int): Location?
+
+    @Query("SELECT * from location")
+    fun getAllLocations(): List<Location>
 }

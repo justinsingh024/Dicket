@@ -8,4 +8,8 @@ class LocationRepository @Inject constructor(private val locationDao: LocationDa
     fun getLocationById(id: Int): Location? {
         return locationDao.getLocationById(id)
     }
+
+    fun getAllLocations(): List<Location> {
+        return locationDao.getAllLocations()
+    }
 }

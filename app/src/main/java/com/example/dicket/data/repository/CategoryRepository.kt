@@ -9,4 +9,8 @@ class CategoryRepository @Inject constructor(private val categoryDao: CategoryDa
         val category: Category? = categoryDao.getCategoryById(id)
         return category
     }
+
+    fun getAllCategories(): List<Category> {
+        return categoryDao.getAllCategories()
+    }
 }
