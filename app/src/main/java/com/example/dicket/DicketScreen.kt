@@ -58,12 +58,13 @@ enum class DicketScreen {
     NewEvent,
 }
 
+// AppBar composable function
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DicketAppBar(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    canNavigateBack: Boolean,           // @param canNavigateBack: Indicates whether navigation back is possible
+    navigateUp: () -> Unit,             // @param navigateUp: Callback to handle navigation up
+    modifier: Modifier = Modifier       // @param modifier: Optional modifier for customization
 ) {
     TopAppBar(
         title = { Text(stringResource(id = R.string.app_name), color = Color.White) },
@@ -85,15 +86,19 @@ fun DicketAppBar(
     )
 }
 
+// Main App composable function
 @Composable
 fun DicketApp(
-    viewModel: OverviewViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
+    viewModel: OverviewViewModel = hiltViewModel(),  // @param viewModel: View model for the app
+    navController: NavHostController = rememberNavController()  // @param navController: Navigation controller
 ) {
+    // Collect UI state from the view model
     val uiState by viewModel.uiState.collectAsState()
 
+    // Scaffold composable function for layout structure
     Scaffold(
         topBar = {
+            // Custom app bar
             DicketAppBar(
                 canNavigateBack = true,
                 navigateUp = {
@@ -102,24 +107,26 @@ fun DicketApp(
             )
         },
         bottomBar = {
+            // Custom navigation bar
             NavigationBar(
                 containerColor = Color(0xFF242323)
                 //containerColor = Color(255, 128, 54)
                 //backgroundColor = Color(255, 128, 54)
             ) {
+                // Retrieve the current destination from the navigation controller
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                // Linkes Element
+                // Left navigation item
                 NavigationBarItem(
                     icon = {
                         Icon(
                             Icons.Filled.Home,
                             contentDescription = null,
                             tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.Overview.name } == true) {
-                                Color(0xFF242323) // Ausgewählte Farbe
+                                Color(0xFF242323) // Selected color
                             } else {
-                                Color(255, 128, 54) // Nicht ausgewählte Farbe
+                                Color(255, 128, 54) // Unselected color
                             }
                         )
                     },
@@ -127,6 +134,7 @@ fun DicketApp(
                     selected = currentDestination?.hierarchy?.any { it.route == DicketScreen.Overview.name } == true,
                     onClick = {
                         navController.navigate(DicketScreen.Overview.name) {
+                            // Add any navigation options if needed
                         }
                     },
                     colors = NavigationBarItemDefaults.colors(
@@ -138,8 +146,7 @@ fun DicketApp(
                     )
                 )
 
-                // Platzhalter für das mittlere Element
-
+                // Middle navigation item
                 NavigationBarItem(
                     icon = {
                         Icon(
@@ -166,16 +173,17 @@ fun DicketApp(
                         )
                     )
                 )
-                // Rechtes Element
+
+                // Right navigation item
                 NavigationBarItem(
                     icon = {
                         Icon(
                             Icons.Filled.AccountCircle,
                             contentDescription = null,
                             tint = if (currentDestination?.hierarchy?.any { it.route == DicketScreen.MyProfile.name } == true) {
-                                Color(0xFF242323) // Ausgewählte Farbe
+                                Color(0xFF242323) // Selected color
                             } else {
-                                Color(255, 128, 54) // Nicht ausgewählte Farbe
+                                Color(255, 128, 54) // Unselected color
                             }
                         )
                     },
@@ -198,11 +206,13 @@ fun DicketApp(
         containerColor = Color(0xFF111620)
 
     ) { innerPadding ->
+        // Navigation host for handling different screens
         NavHost(
             navController = navController,
             startDestination = DicketScreen.Overview.name,
             modifier = Modifier.padding(innerPadding),
         ) {
+            // Composable function for the Overview screen
             composable(route = DicketScreen.Overview.name) {
                 OverviewScreen(
                     onOpenDetail = {
@@ -274,17 +284,23 @@ fun DicketApp(
     }
 }
 
+// Composable function to show the login screen with error dialog
 @Composable
 fun ShowLoginScreen(
-    viewModel: OverviewViewModel,
-    navController: NavHostController,
-    afterLoginScreen: String
+    viewModel: OverviewViewModel,          // @param viewModel: View model for handling login logic
+    navController: NavHostController,      // @param navController: Navigation controller for handling navigation
+    afterLoginScreen: String                // @param afterLoginScreen: Screen to navigate to after successful login
 ) {
+    // State to control the visibility of the error dialog
     var showDialog by remember { mutableStateOf(false) }
 
+    // Display the LoginScreen composable
     LoginScreen(
         onLoginClicked = { mail, password ->
+            // Attempt login using the provided credentials
             val loginCheck = viewModel.login(mail, password)
+
+            // Navigate to the specified screen on successful login, otherwise show error dialog
             if (loginCheck) {
                 navController.navigate(afterLoginScreen)
             } else {
@@ -293,10 +309,12 @@ fun ShowLoginScreen(
             loginCheck
         },
         onLoginFailed = {
+            // Show error dialog on login failure
             showDialog = true
         }
     )
 
+    // Display an AlertDialog if showDialog is true
     if (showDialog) {
         AlertDialog(
             containerColor = Color(0xFF1F293D),
@@ -320,6 +338,7 @@ fun ShowLoginScreen(
                 )
             },
             confirmButton = {
+                // Retry button in the error dialog
                 Button(
                     onClick = { showDialog = false },
                     colors = ButtonDefaults.buttonColors(
@@ -333,7 +352,7 @@ fun ShowLoginScreen(
                         .fillMaxWidth()
                         .padding(top = 8.dp)
                 ) {
-                    Text("Try agian")
+                    Text("Try again")
                 }
             }
         )

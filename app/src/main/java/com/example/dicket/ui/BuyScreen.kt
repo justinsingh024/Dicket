@@ -31,6 +31,15 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * Composable function to display the details of an event and handle the purchase confirmation.
+ *
+ * @param modifier Modifier for styling the BuyScreen layout.
+ * @param event Event object containing details about the event.
+ * @param location Location object containing details about the event location.
+ * @param user User object representing the current user.
+ * @param navController Navigation controller for navigating between screens.
+ */
 @Composable
 fun BuyScreen(
     modifier: Modifier = Modifier,
@@ -39,15 +48,22 @@ fun BuyScreen(
     user: User,
     navController: NavHostController?,
 ) {
+    // State to manage the visibility of the purchase confirmation dialog
     var showDialog by remember { mutableStateOf(false) }
+
+    // ViewModel initialization using Hilt
     val viewModel: OverviewViewModel = hiltViewModel()
+
+    // Main Column layout for the BuyScreen
     Column {
+        // Column for displaying event details
         Column(
             modifier = modifier
                 .padding(12.dp)
                 .verticalScroll(rememberScrollState())
                 .weight(4f)
         ) {
+            // Display various event details using PaddedText composable
             val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             PaddedText(label = "Event:", value = event.title)
             PaddedText(label = "Price:", value = String.format("%.2f€", event.price))
@@ -56,6 +72,8 @@ fun BuyScreen(
             PaddedText(label = "Date: ", value = event.date.format(formatter))
             PaddedText(label = "Available Tickets: ", value = event.maxQuantityTicket.toString())
         }
+
+        // Button for initiating the purchase process
         Button(
             modifier = modifier
                 .fillMaxWidth()
@@ -75,11 +93,12 @@ fun BuyScreen(
             Text(text = "Pay: ${String.format("%.2f€", event.price)}", fontSize = 18.sp)
         }
 
+        // AlertDialog for confirming the purchase
         if (showDialog) {
             AlertDialog(
                 containerColor = Color(31, 41, 61),
                 onDismissRequest = {
-                    // Schließe das AlertDialog
+                    // Dismiss the AlertDialog
                     showDialog = false
                 },
                 title = {
@@ -107,9 +126,9 @@ fun BuyScreen(
                     )
                 },
                 confirmButton = {
+                    // Confirm Button with logic for purchase confirmation
                     Button(
                         onClick = {
-                            // Füge hier deine Logik für die Bestätigung hinzu
                             viewModel.buyTicket(user, event)
                             showDialog = false
                             navController?.navigate(DicketScreen.MyProfile.name)
@@ -129,9 +148,9 @@ fun BuyScreen(
                     }
                 },
                 dismissButton = {
+                    // Cancel Button for dismissing the confirmation
                     Button(
                         onClick = {
-                            // Füge hier deine Logik für das Abbrechen hinzu
                             showDialog = false
                         },
                         modifier = Modifier
@@ -147,9 +166,13 @@ fun BuyScreen(
     }
 }
 
+/**
+ * Preview function for BuyScreen with example data.
+ */
 @Preview
 @Composable
 fun BuyScreen() {
+    // Example data for an event, location, and user
     val exampleEvent = Event(
         eventID = 1,
         title = "Amazing Event",
@@ -158,10 +181,8 @@ fun BuyScreen() {
         minAge = 18,
         entry = LocalTime.of(18, 30),
         date = LocalDate.of(2023, 4, 20),  // Set to 24 hours from now
-        //location = "Fantastic Venue",
         location = 1,
         image = "https://example.com/sample_image.jpg",
-        //category = "Entertainment",
         category = 2,
         price = 49.99,
         latestCancelingDate = System.currentTimeMillis() - 86400000,  // Set to 24 hours ago
@@ -187,6 +208,7 @@ fun BuyScreen() {
         birthdate = "1999-1-1",
         byteArrayOf()
     )
+    // Call to BuyScreen with example data
     BuyScreen(
         event = exampleEvent,
         location = exampleLocation,

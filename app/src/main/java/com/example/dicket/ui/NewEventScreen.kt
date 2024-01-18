@@ -42,8 +42,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.dicket.data.entity.Category
 import com.example.dicket.data.entity.Location
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import kotlin.reflect.KFunction11
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -51,10 +49,13 @@ import kotlin.reflect.KFunction11
 fun NewEventScreen(
     viewModel: OverviewViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    // Function called upon successful event creation
     onCreateEvent: KFunction11<String, String, String, String, String, String, String, String, String, String, String, Unit>,
+    // Callback function invoked when an event is created
     onEventCreated: () -> Unit
 
 ) {
+    // Local state variables for various input fields
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
@@ -68,8 +69,12 @@ fun NewEventScreen(
     var maxQuantityTicket by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scrollState = rememberScrollState()
+
+    // Flags to track dropdown status
     var expandedCategory by remember { mutableStateOf(false) }
     var expandedLocation by remember { mutableStateOf(false) }
+
+    // Retrieve all categories and locations
     val categories = viewModel.getAllCategories()
     val locations = viewModel.getAllLocations()
 

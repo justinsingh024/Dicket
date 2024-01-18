@@ -26,13 +26,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt module providing dependencies for the Dicket application.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DicketModule {
 
+    // Volatile ensures that multiple threads can access this variable.
     @Volatile
     private var INSTANCE: DicketDatabase? = null
 
+    /**
+     * Room database creation callback.
+     * Used to populate the database with example data when it is created.
+     */
     private class DbCallback(
         private val scope: CoroutineScope,
     ) : RoomDatabase.Callback() {
@@ -47,6 +55,8 @@ object DicketModule {
             }
         }
     }
+
+    // Provide instances of repositories and DAOs using Dagger Hilt annotations.
 
     @Singleton
     @Provides
@@ -102,7 +112,10 @@ object DicketModule {
         return database.ticketDao()
     }
 
-
+    /**
+     * Provide an instance of the Room database using Dagger Hilt annotations.
+     * The database is created as a singleton.
+     */
     @Singleton
     @Provides
     fun provideDatabase(

@@ -11,20 +11,42 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+/**
+ * Repository class for handling data operations related to the Event and Ticket entities.
+ *
+ * @property eventDao The Data Access Object (DAO) for the Event entity.
+ * @property ticketDao The Data Access Object (DAO) for the Ticket entity.
+ */
 class EventRepository @Inject constructor(
     private val eventDao: EventDao,
     private val ticketDao: TicketDao
 ) {
+    /**
+     * Retrieves all events stored in the database.
+     *
+     * @return A list of all Event objects in the database.
+     */
     fun getAllEvents(): List<Event> {
         return eventDao.getAllEvents()
     }
 
+    /**
+     * Inserts an event into the database.
+     *
+     * @param event The Event object to be inserted.
+     */
     suspend fun insertEvent(event: Event) {
         withContext(Dispatchers.IO) {
             eventDao.insert(event)
         }
     }
 
+    /**
+     * Retrieves events organized by a specific user (organizer).
+     *
+     * @param user The User object representing the organizer.
+     * @return A list of Event objects organized by the specified user.
+     */
     fun getEventsByUserOrganizer(user: User?): List<Event> {
         return if (user != null) {
             eventDao.getEventsByOrganizer(user.userID)
@@ -33,6 +55,12 @@ class EventRepository @Inject constructor(
         }
     }
 
+    /**
+     * Retrieves events associated with tickets purchased by a specific user.
+     *
+     * @param user The User object representing the ticket purchaser.
+     * @return A list of Event objects associated with tickets purchased by the specified user.
+     */
     fun getEventsByUserTickets(user: User?): List<Event> {
         return if (user != null) {
             eventDao.getEventsByUserTickets(user.userID)
@@ -41,11 +69,19 @@ class EventRepository @Inject constructor(
         }
     }
 
+    /**
+     * Buys a ticket for a user to attend a specific event.
+     *
+     * @param user The User object purchasing the ticket.
+     * @param event The Event object for which the ticket is purchased.
+     */
     fun buyTicket(user: User, event: Event) {
+        // Generate a unique QR code for the ticket
         val qrCode = user.userID.toString() +
                 event.eventID.toString() +
                 LocalDateTime.now().toString()
 
+        // Insert the ticket into the database
         ticketDao.insertTicket(
             Ticket(
                 qrCode,
@@ -59,6 +95,7 @@ class EventRepository @Inject constructor(
             )
         )
 
+        // Decrement the maximum quantity of tickets available for the event
         eventDao.decrementMaxQuantityTicket(event.eventID)
     }
 }

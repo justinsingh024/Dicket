@@ -16,20 +16,25 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     lateinit var database: DicketDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
         setContent {
+            // Set the status bar color and navigation bar color
             DicketTheme {
-                SetStatusBarColor(colorStatusBar = Color(0xFF242323), Color(0xFF242323))
+                SetStatusBarColor(
+                    colorStatusBar = Color(0xFF242323),
+                    colorNavigationBar = Color(0xFF242323)
+                )
                 DicketApp()
             }
         }
     }
 }
 
-
+// Preview function for the DicketApp composable
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -38,11 +43,16 @@ fun GreetingPreview() {
     }
 }
 
+// Function to set the status bar and navigation bar color
 @Composable
 fun SetStatusBarColor(
-    colorStatusBar: Color, colorNavigationBar: Color
+    colorStatusBar: Color,         // @param colorStatusBar: Color for the status bar
+    colorNavigationBar: Color      // @param colorNavigationBar: Color for the navigation bar
 ) {
+    // Retrieve the system UI controller
     val systemUiController = rememberSystemUiController()
+
+    // SideEffect to set the status bar and navigation bar colors
     SideEffect {
         systemUiController.setStatusBarColor(colorStatusBar)
         systemUiController.setNavigationBarColor(colorNavigationBar)

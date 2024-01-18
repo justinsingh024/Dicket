@@ -65,6 +65,13 @@ import java.io.File
 import java.io.FileInputStream
 import java.time.format.DateTimeFormatter
 
+/**
+ * Composable function for displaying the overview screen.
+ *
+ * @param modifier Modifier for customizing the layout.
+ * @param viewModel ViewModel for managing the overview screen logic.
+ * @param onOpenDetail Callback function to handle opening details for a specific event.
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun OverviewScreen(
@@ -72,6 +79,7 @@ fun OverviewScreen(
     viewModel: OverviewViewModel = hiltViewModel(),
     onOpenDetail: (Event) -> Unit,
 ) {
+    // Collect state from the ViewModel
     val uiState by viewModel
         .uiState.collectAsState()
     val displayEvents by viewModel.displayEvents.collectAsState()
@@ -80,10 +88,13 @@ fun OverviewScreen(
     val sortBy by viewModel.sortedBy.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    // Main Column
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        // Search and Sort Row
         Row(modifier = Modifier.fillMaxWidth()) {
+            // Search TextField
             TextField(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color(0xFFC4D3F0),
@@ -120,6 +131,7 @@ fun OverviewScreen(
                     }
                 )
             )
+            // Sort Dropdown Menu
             SortDropdownMenu(
                 modifier = Modifier
                     .weight(2f)
@@ -129,6 +141,7 @@ fun OverviewScreen(
             )
 
         }
+        // Event Grid
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 128.dp),
             contentPadding = PaddingValues(
@@ -142,6 +155,7 @@ fun OverviewScreen(
             modifier = modifier
         ) {
             items(displayEvents) { event ->
+                // Event Card
                 Card(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -151,12 +165,14 @@ fun OverviewScreen(
 
                     ) {
                 }
+                // Event Content
                 Column(modifier = modifier
                     .padding(bottom = 20.dp)
                     .clickable {
                         onOpenDetail(event)
                     }) {
                     Card(
+                        // Event Image
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(16.dp)) // Adjust the corner radius as needed
@@ -190,6 +206,7 @@ fun OverviewScreen(
                         }
 
                     }
+                    // Event Title
                     Row(
                         modifier = modifier,
 
@@ -203,6 +220,7 @@ fun OverviewScreen(
                             modifier = Modifier.padding(6.dp)
                         )
                     }
+                    // Event Date
                     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                     Text(
                         text = " " + event.date.format(formatter),
@@ -219,6 +237,13 @@ fun OverviewScreen(
     }
 }
 
+/**
+ * Composable function for displaying a dropdown menu for sorting events.
+ *
+ * @param modifier Modifier for customizing the layout.
+ * @param sortedBy The currently selected sorting option.
+ * @param onSortedBy Callback function to handle changes in the sorting option.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortDropdownMenu(
@@ -226,10 +251,12 @@ fun SortDropdownMenu(
     sortedBy: SortBy,
     onSortedBy: (sortBy: SortBy) -> Unit,
 ) {
+    // State for tracking the dropdown menu's expansion state
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
+    // Dropdown menu components
     ExposedDropdownMenuBox(
         modifier = modifier,
         expanded = isExpanded,
@@ -258,6 +285,7 @@ fun SortDropdownMenu(
             ),
             modifier = Modifier.menuAnchor()
         )
+        // Dropdown menu items
         ExposedDropdownMenu(
             modifier = Modifier.background(Color(0xFF1F293D)),
             expanded = isExpanded,
@@ -265,6 +293,7 @@ fun SortDropdownMenu(
                 isExpanded = false
             }
         ) {
+            // Dropdown menu item for "None" sorting
             DropdownMenuItem(
                 modifier = Modifier.background(Color(0xFF1F293D)),
                 text = {
@@ -279,6 +308,7 @@ fun SortDropdownMenu(
                     textColor = Color.White
                 )
             )
+            // Dropdown menu item for sorting by name
             DropdownMenuItem(
                 text = {
                     Text(text = SortBy.NAME.text)
@@ -292,6 +322,7 @@ fun SortDropdownMenu(
                     textColor = Color.White
                 )
             )
+            // Dropdown menu item for sorting by date
             DropdownMenuItem(
                 text = {
                     Text(text = SortBy.DATE.text)
@@ -309,6 +340,13 @@ fun SortDropdownMenu(
     }
 }
 
+/**
+ * Function to load an image from internal storage.
+ *
+ * @param context The application context.
+ * @param fileName The name of the image file to be loaded.
+ * @return The loaded Bitmap image, or null if an error occurs.
+ */
 private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
     try {
         val eventImagesDir = File(context.filesDir, "event_images")
@@ -325,6 +363,9 @@ private fun loadImageFromInternalStorage(context: Context, fileName: String): Bi
     return null
 }
 
+/**
+ * Preview composable function for the overview screen.
+ */
 @Preview
 @Composable
 fun OverviewScreenPreview() {

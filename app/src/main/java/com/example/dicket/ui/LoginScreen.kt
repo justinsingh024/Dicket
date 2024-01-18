@@ -38,6 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dicket.R
 
+/**
+ * Composable function for the login screen.
+ *
+ * @param onLoginClicked Callback function invoked when the login button is clicked. Returns true if login is successful, false otherwise.
+ * @param onLoginFailed Callback function invoked when the login attempt fails.
+ */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -95,6 +101,7 @@ fun LoginScreen(
             ),
         )
 
+        // Password input field
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -128,6 +135,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Login button
         Button(
             onClick = {
                 val loginCheck = onLoginClicked(email, password)

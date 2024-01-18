@@ -11,8 +11,17 @@ import java.security.MessageDigest
 import java.time.LocalDate
 import java.time.LocalTime
 
+/**
+ * Helper class for initializing the database with example data.
+ */
 class DatabaseInitializer {
+    /**
+     * Inserts example data into the provided DicketDatabase.
+     *
+     * @param database The DicketDatabase instance to insert example data into.
+     */
     suspend fun insertExampleData(database: DicketDatabase) {
+        // Obtain DAO instances from the database
         val categoryDao = database.categoryDao()
         val locationDao = database.locationDao()
         val eventDao = database.eventDao()
@@ -20,13 +29,13 @@ class DatabaseInitializer {
         val userDao = database.userDao()
         val helpsDao = database.helpsDao()
 
-        // Beispiel-Daten für Categorie
+        // Insert example data for categories
         categoryDao.insertCategory(Category(1, "Festival"))
         categoryDao.insertCategory(Category(2, "Homeparty"))
         categoryDao.insertCategory(Category(3, "Technoparty"))
 
 
-        // Beispiel-Daten für Location
+        // Insert example data for locations
         locationDao.insertLocation(
             Location(
                 1,
@@ -116,7 +125,7 @@ class DatabaseInitializer {
         )
 
 
-        // Beispiel-Daten für User
+        // Insert example data for users
         val saltUser1 = generateRandomSalt()
         userDao.insertUser(
             User(
@@ -147,7 +156,7 @@ class DatabaseInitializer {
             )
         )
 
-        // Beispiel-Daten für Eventen
+        // Insert example data for events
         eventDao.insert(
             Event(
                 1,
@@ -307,25 +316,37 @@ class DatabaseInitializer {
             )
         )
 
-        // Beispiel-Daten für Tickets
+        // Insert example data for tickets
         for (i in 3..4) {
             val ticket = Ticket("ABC${i}123", "2022-01-0$i", false, false, false, i, 1, 2)
             ticketDao.insertTicket(ticket)
         }
 
-        // Beispiel-Daten für Helps
+        // Insert example data for helps
         for (i in 1..4) {
             helpsDao.insertHelps(Helps(1, i))
         }
     }
 
+    /**
+     * Generates a random cryptographic salt.
+     *
+     * @param length The length of the salt.
+     * @return The generated salt as a byte array.
+     */
     fun generateRandomSalt(length: Int = 15): ByteArray {
         val salt = ByteArray(length)
         java.security.SecureRandom().nextBytes(salt)
-        println(salt)
         return salt
     }
 
+    /**
+     * Hashes the given password using SHA-256 and the provided salt.
+     *
+     * @param password The password to be hashed.
+     * @param salt The cryptographic salt.
+     * @return The hashed password as a hexadecimal string.
+     */
     fun hashPassword(password: String, salt: ByteArray): String {
         val md = MessageDigest.getInstance("SHA-256")
         md.update(salt)

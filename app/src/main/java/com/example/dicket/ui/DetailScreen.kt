@@ -44,6 +44,15 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * Composable function to display detailed information about an event.
+ *
+ * @param modifier Modifier for styling the DetailScreen layout.
+ * @param event Event object containing details about the event.
+ * @param category Category object representing the category of the event.
+ * @param location Location object containing details about the event location.
+ * @param onBuyPressed Callback function invoked when the "Order Ticket" button is pressed.
+ */
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
@@ -127,6 +136,13 @@ fun DetailScreen(
     }
 }
 
+/**
+ * Function to load an image from internal storage.
+ *
+ * @param context Context of the application.
+ * @param fileName Name of the image file.
+ * @return Bitmap object representing the loaded image.
+ */
 private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
     try {
         val eventImagesDir = File(context.filesDir, "event_images")
@@ -143,6 +159,13 @@ private fun loadImageFromInternalStorage(context: Context, fileName: String): Bi
     return null
 }
 
+/**
+ * Composable function to display a row with padded text.
+ *
+ * @param label Label for the text.
+ * @param value Value to be displayed.
+ * @param modifier Modifier for styling the row.
+ */
 @Composable
 fun PaddedText(label: String, value: String, modifier: Modifier = Modifier) {
     Spacer(modifier = modifier.height(16.dp))
@@ -161,6 +184,11 @@ fun PaddedText(label: String, value: String, modifier: Modifier = Modifier) {
 
 }
 
+/**
+ * Composable function to display a star rating.
+ *
+ * @param rating Rating value to be displayed.
+ */
 @Composable
 fun StarRating(rating: Float) {
     LazyRow(
@@ -182,6 +210,9 @@ fun StarRating(rating: Float) {
     }
 }
 
+/**
+ * Preview function for DetailScreen with example data.
+ */
 @Preview
 @Composable
 fun DetailScreenPreview() {

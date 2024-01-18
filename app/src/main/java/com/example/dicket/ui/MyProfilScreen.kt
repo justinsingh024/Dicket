@@ -47,6 +47,18 @@ import java.io.File
 import java.io.FileInputStream
 import java.time.format.DateTimeFormatter
 
+/**
+ * Composable function for the MyProfile screen.
+ *
+ * @param modifier The modifier for this composable.
+ * @param viewModel The OverviewViewModel to interact with the data.
+ * @param currentUser The current logged-in user.
+ * @param isLoggedIn Flag indicating whether a user is logged in or not.
+ * @param myEvents List of events associated with the user.
+ * @param myTickets List of tickets associated with the user.
+ * @param onLoginPressed Callback function invoked when the login button is pressed.
+ * @param onLogoutPressed Callback function invoked when the logout button is pressed.
+ */
 @Composable
 fun MyProfilScreen(
     modifier: Modifier = Modifier,
@@ -101,6 +113,15 @@ fun MyProfilScreen(
     }
 }
 
+/**
+ * Composable function for the login information display.
+ *
+ * @param currentUser The current logged-in user.
+ * @param isLoggedIn Flag indicating whether a user is logged in or not.
+ * @param modifier The modifier for this composable.
+ * @param onLoginPressed Callback function invoked when the login button is pressed.
+ * @param onLogoutPressed Callback function invoked when the logout button is pressed.
+ */
 @Composable
 fun LoginInfoScreen(
     currentUser: User?,
@@ -148,6 +169,11 @@ fun LoginInfoScreen(
     }
 }
 
+/**
+ * Composable function for the payment screen.
+ *
+ * @param modifier The modifier for this composable.
+ */
 @Composable
 fun PaymentScreen(
     modifier: Modifier = Modifier
@@ -193,6 +219,13 @@ fun PaymentScreen(
     }
 }
 
+/**
+ * Composable function for displaying a list of events.
+ *
+ * @param modifier The modifier for this composable.
+ * @param myEvents List of events to display.
+ * @param viewModel The OverviewViewModel to interact with the data.
+ */
 @Composable
 fun EventsListingScreen(
     modifier: Modifier = Modifier,
@@ -273,6 +306,13 @@ fun EventsListingScreen(
     }
 }
 
+/**
+ * Function to load an image from internal storage.
+ *
+ * @param context The context.
+ * @param fileName The name of the file.
+ * @return The loaded Bitmap or null if unsuccessful.
+ */
 private fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
     try {
         val eventImagesDir = File(context.filesDir, "event_images")

@@ -17,6 +17,9 @@ import com.example.dicket.data.entity.Location
 import com.example.dicket.data.entity.Ticket
 import com.example.dicket.data.entity.User
 
+/**
+ * Room Database class for the Dicket application.
+ */
 @Database(
     entities = [User::class, Ticket::class, Helps::class, Event::class, Location::class, Category::class],
     version = 2
@@ -24,10 +27,33 @@ import com.example.dicket.data.entity.User
 @TypeConverters(Converters::class)
 abstract class DicketDatabase : RoomDatabase() {
 
+    /**
+     * Provides access to the UserDao for performing user-related database operations.
+     */
     abstract fun userDao(): UserDao
+
+    /**
+     * Provides access to the TicketDao for performing ticket-related database operations.
+     */
     abstract fun ticketDao(): TicketDao
+
+    /**
+     * Provides access to the HelpsDao for performing helps-related database operations.
+     */
     abstract fun helpsDao(): HelpsDao
+
+    /**
+     * Provides access to the EventDao for performing event-related database operations.
+     */
     abstract fun eventDao(): EventDao
+
+    /**
+     * Provides access to the LocationDao for performing location-related database operations.
+     */
     abstract fun locationDao(): LocationDao
+
+    /**
+     * Provides access to the CategoryDao for performing category-related database operations.
+     */
     abstract fun categoryDao(): CategoryDao
 }

@@ -28,6 +28,14 @@ enum class SortBy(val text: String) {
     DATE("Date")
 }
 
+/**
+ * ViewModel responsible for managing the data and business logic for the Overview screen.
+ *
+ * @param eventRepository Repository for accessing event-related data.
+ * @param categoryRepository Repository for accessing category-related data.
+ * @param locationRepository Repository for accessing location-related data.
+ * @param userRepository Repository for accessing user-related data.
+ */
 @HiltViewModel
 class OverviewViewModel @Inject constructor(
     private val eventRepository: EventRepository,
@@ -64,11 +72,19 @@ class OverviewViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Handles changes in the search text input.
+     *
+     * @param text The updated search text.
+     */
     fun onSearchTextChange(text: String) {
         _searchText.value = text
 
     }
 
+    /**
+     * Handles the search button press. Filters events based on the search text.
+     */
     fun onSearchPressed() {
         _displayEvents.value = eventRepository.getAllEvents()
         _sortedby.value = SortBy.NONE
@@ -77,6 +93,11 @@ class OverviewViewModel @Inject constructor(
 
     }
 
+    /**
+     * Handles the selection of a sorting option.
+     *
+     * @param sortBy The selected sorting option.
+     */
     fun onSortBy(sortBy: SortBy) {
         _displayEvents.value = eventRepository.getAllEvents()
         _searchText.value = ""
@@ -100,6 +121,21 @@ class OverviewViewModel @Inject constructor(
 
     }
 
+    /**
+     * Creates a new event and inserts it into the repository.
+     *
+     * @param title Title of the event.
+     * @param description Description of the event.
+     * @param price Price of the event.
+     * @param minAge Minimum age requirement for the event.
+     * @param entry Entry time for the event.
+     * @param date Date of the event.
+     * @param location Location ID for the event.
+     * @param image Image name for the event.
+     * @param category Category ID for the event.
+     * @param latestCancelingDate Latest canceling date for the event.
+     * @param maxQuantityTicket Maximum quantity of tickets available for the event.
+     */
     fun createEvent(
         title: String,
         description: String,
@@ -136,13 +172,6 @@ class OverviewViewModel @Inject constructor(
         viewModelScope.launch {
             eventRepository.insertEvent(event)
             _displayEvents.value = eventRepository.getAllEvents()
-        }
-    }
-
-    fun insertCheckIn(event: Event) {
-        viewModelScope.launch {
-            eventRepository.insertEvent(event)
-            _displayEvents.emit(eventRepository.getAllEvents())
         }
     }
 
